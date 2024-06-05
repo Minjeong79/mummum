@@ -5,6 +5,7 @@ import addDogThemaReducer from "./slices/dogSlice/addDogSelectSlice";
 import addDogNameSlice from "./slices/dogSlice/addDogNameSlice";
 import userWirteIdReducer from "./slices/user/userWriteSlice";
 import userSelectIdReducer from "./slices/user/userWriteSlice";
+import mainDustReducer from "./slices/mainSlice/mainPageSlice";
 const rootReducer = combineReducers({
   userLogin: userLoginReducer,
   dogBoard: addDogReducer,
@@ -12,6 +13,8 @@ const rootReducer = combineReducers({
   dogName: addDogNameSlice,
   userWriteId: userWirteIdReducer,
   userSelectId: userSelectIdReducer,
+  mainDust:mainDustReducer,
+
 });
 
 export default rootReducer;
