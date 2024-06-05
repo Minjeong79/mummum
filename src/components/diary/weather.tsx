@@ -3,8 +3,9 @@ import { useAppDispatch, useAppSelector } from "../../redux/reduxStore";
 import { useNavigate } from "react-router-dom";
 import useGeolocation from "react-hook-geolocation";
 import axios from "axios";
+import { mainDust } from "../../redux/slices/mainSlice/mainPageSlice";
 import supabase from "../../store";
-
+ 
 type CityData = {
   response: {
     body: {
@@ -52,6 +53,9 @@ interface CityPm {
 }
 
 const Weather = () => {
+  const dispatch = useAppDispatch();
+
+  const dustList = useAppSelector((state)=>state.mainDust.response);
   const [myDogName, setMyDogName] = useState("");
   const [addressName, setAddressName] = useState("");
   const [loading, setLoading] = useState(true);
@@ -89,13 +93,13 @@ const Weather = () => {
         params: {
           serviceKey: SERVICE_KEY,
           returnType: "json",
-          numOfRows: 25,
-          pageNo: 1,
+          // numOfRows: 25,
+          // pageNo: 1,
           sidoName: "서울",
           searchCondition: "HOUR",
         },
       });
-      console.log("fetchData called2222222222");
+      dispatch(mainDust(response.data.response.body.items));
       setDataUrl(response.data);
     } catch (error) {
       console.log(error);
@@ -140,7 +144,7 @@ const Weather = () => {
   };
 
   useEffect(() => {
-    handleGeocoder();
+    // handleGeocoder();
     handleDogName();
     fetchData();
   }, []);
@@ -150,13 +154,13 @@ const Weather = () => {
   }, [dataUrl]);
 
   useEffect(() => {
-    console.log(cityData);
+    // console.log(cityData);
     handleComparison();
   }, [cityData]);
 
-  useEffect(() => {
-    handleGeocoder();
-  }, [loading]);
+  // useEffect(() => {
+  //   handleGeocoder();
+  // }, [loading]);
 
   const handleImgUpload = async (event: any) => {
     const avatarFile = event.target.files[0];
@@ -168,7 +172,7 @@ const Weather = () => {
         upsert: false,
       });
   };
-
+console.log(dustList);
   return (
     <section>
       <div
