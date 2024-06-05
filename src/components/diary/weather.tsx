@@ -65,9 +65,9 @@ const Weather = () => {
   const [pofilImg, setProfilImg] = useState("");
 
   const URL =
-    "http://apis.data.go.kr/B552584/ArpltnStatsSvc/getCtprvnMesureSidoLIst";
+    "";
   const SERVICE_KEY =
-    "8HRm1o68X5CSUrMEIAk6vFK2Fgi%2F1un6PVwE%2Bn0%2BwixdBFO%2F";
+    "";
 
   const geolocation = useGeolocation();
   const latitude = geolocation.latitude;
