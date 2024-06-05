@@ -29,7 +29,7 @@ const View = () => {
   const nav = useNavigate();
   const { id } = useParams();
 
-  const dbId = useAppSelector((state) => state.userWriteId.selectId);
+  const selectDBId = useAppSelector((state) => state.userWriteId.selectId);
 
   const [fetchDb, setFetchDb] = useState<DataType[]>([]);
   const handleDb = async () => {
@@ -41,17 +41,29 @@ const View = () => {
     }
   };
 
-  const hadleEdit = (dbId: number) => {
-    nav(`/write/${dbId}`);
+  const hadleEdit = (selectDBId: number) => {
+    nav(`/write/${selectDBId}`);
   };
-  const hadleCancle = (dbId: number) => {
-    nav(`/view/${dbId}`);
+  const hadleCancle = (selectDBId: number) => {
+    nav(`/view/${selectDBId}`);
   };
-  console.log(dbId);
-  // console.log(fetchDb);
+  console.log(selectDBId);
+  
+  const hadleDelete = async(selectDBId: number)=>{
+    console.log('click');
+    window.confirm('삭제 하시겠습니까?')
+      const { error } = await supabase
+      .from('writedb')
+      .delete()
+      .eq('id', selectDBId);
+      
+      nav(`/list`);
+    }
   useEffect(() => {
     handleDb();
   }, []);
+
+  console.log(fetchDb);
   return (
     <section
       style={{ backgroundColor: "#FFEAD9", width: "100%", height: "100%" }}
@@ -62,7 +74,7 @@ const View = () => {
         <div>
           <ul style={{ display: "flex", height: "150px" }}>
             {fetchDb.map((item, index) =>
-              item.id === dbId ? (
+              item.id === selectDBId ? (
                 <li key={index}>
                   <h3>{item.date}</h3>
 
@@ -82,8 +94,9 @@ const View = () => {
           </ul>
         </div>
         <div>
-          <button onClick={() => hadleEdit(dbId)}>수정</button>
-          <button onClick={() => hadleCancle(dbId)}>취소</button>
+          <button onClick={() => hadleDelete(selectDBId)}>삭제</button>
+          <button onClick={() => hadleEdit(selectDBId)}>수정</button>
+          <button onClick={() => hadleCancle(selectDBId)}>취소</button>
         </div>
       </div>
     </section>
