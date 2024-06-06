@@ -8,7 +8,7 @@ const DogSelect = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
   const dispatch = useAppDispatch();
   const nav = useNavigate();
-  
+
   const [imageUrlList, setImageUrlList] = useState<string[]>([]);
 
   const imgListHandle = async () => {
@@ -17,7 +17,7 @@ const DogSelect = () => {
       .list("dogSelect");
 
     const url =
-      "";
+      "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/dogSelect/";
     if (data) {
       const imgName = data.map((item) => `${url}${item.name}`);
       setImageUrlList(imgName);
