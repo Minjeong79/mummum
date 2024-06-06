@@ -5,7 +5,7 @@ import useGeolocation from "react-hook-geolocation";
 import axios from "axios";
 import { mainDust } from "../../redux/slices/mainSlice/mainPageSlice";
 import supabase from "../../store";
- 
+
 type CityData = {
   response: {
     body: {
@@ -38,6 +38,7 @@ type CityData = {
     };
   };
 };
+
 const initialDataUrl: CityData = {
   response: {
     body: {
@@ -46,22 +47,43 @@ const initialDataUrl: CityData = {
     },
   },
 };
-interface CityPm {
+
+interface CityDataList {
   cityName: string;
+  cityNameEng: string;
+  coValue: string;
+  dataGubun: string;
+  dataTime: string;
+  districtCode: string;
+  districtNumSeq: string;
+  itemCode: string;
+  khaiValue: string;
+  no2Value: string;
+  numOfRows: string;
+  o3Value: string;
+  pageNo: string;
   pm10Value: string;
   pm25Value: string;
+  resultCode: string;
+  resultMsg: string;
+  returnType: string;
+  searchCondition: string;
+  serviceKey: string;
+  sidoName: string;
+  so2Value: string;
+  totalCount: string;
 }
 
 const Weather = () => {
   const dispatch = useAppDispatch();
 
-  const dustList = useAppSelector((state)=>state.mainDust.response);
+  const dustList = useAppSelector((state) => state.mainDust.response);
   const [myDogName, setMyDogName] = useState("");
   const [addressName, setAddressName] = useState("");
   const [loading, setLoading] = useState(true);
 
   //미세먼지
-  const [dataUrl, setDataUrl] = useState<CityData>(initialDataUrl);
+  // const [dataUrl, setDataUrl] = useState<CityDataList>(initialData);
   const [cityData, setCityData] = useState<CityPm[]>([]);
   const [checkData, setCheckData] = useState<string[]>([]);
 
@@ -69,9 +91,8 @@ const Weather = () => {
   const [pofilImg, setProfilImg] = useState("");
 
   const URL =
-    "";
-  const SERVICE_KEY =
-    "";
+    "http://apis.data.go.kr/B552584/ArpltnStatsSvc/getCtprvnMesureSidoLIst";
+  const SERVICE_KEY = "";
 
   const geolocation = useGeolocation();
   const latitude = geolocation.latitude;
@@ -99,8 +120,8 @@ const Weather = () => {
           searchCondition: "HOUR",
         },
       });
-      dispatch(mainDust(response.data.response.body.items));
-      setDataUrl(response.data);
+      dispatch(mainDust(response.data.response));
+      // setDataUrl(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -119,23 +140,9 @@ const Weather = () => {
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
   };
 
-  const handleData = async () => {
-    if (dataUrl !== null) {
-      const itemsList = dataUrl.response.body.items;
-      const newData = itemsList.map((item: CityPm) => {
-        const { cityName, pm10Value, pm25Value } = item;
-        return {
-          cityName,
-          pm10Value,
-          pm25Value,
-        };
-      });
-      setCityData(newData);
-    }
-  };
-
   const handleComparison = () => {
-    cityData.map((item) => {
+    // dustList.map((item) => console.log(item.cityName));
+    dustList.body.items.map((item) => {
       if (item.cityName === addressName) {
         const list = [item.cityName, item.pm10Value, item.pm25Value];
         setCheckData(list);
@@ -150,13 +157,8 @@ const Weather = () => {
   }, []);
 
   useEffect(() => {
-    handleData();
-  }, [dataUrl]);
-
-  useEffect(() => {
-    // console.log(cityData);
     handleComparison();
-  }, [cityData]);
+  }, []);
 
   // useEffect(() => {
   //   handleGeocoder();
@@ -172,7 +174,7 @@ const Weather = () => {
         upsert: false,
       });
   };
-console.log(dustList);
+  // console.log(Object.values(dustList));
   return (
     <section>
       <div
@@ -226,7 +228,8 @@ console.log(dustList);
         </h3>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <div>미세먼지</div>
-          <div>
+
+          {/* <div>
             {Number(checkData[1]) <= 30
               ? "좋음"
               : 31 < Number(checkData[1]) && Number(checkData[1]) <= 80
@@ -234,7 +237,7 @@ console.log(dustList);
               : 81 < Number(checkData[1]) && Number(checkData[1]) <= 150
               ? "나쁨"
               : "매우나쁨"}
-          </div>
+          </div> */}
         </div>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <div>초 미세먼지</div>
