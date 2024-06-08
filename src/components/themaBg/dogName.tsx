@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/reduxStore";
 import { useNavigate } from "react-router-dom";
 import addDogNameTHunk from "../../redux/thunks/dogthunk/addDogNameThunk";

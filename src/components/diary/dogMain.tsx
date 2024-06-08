@@ -1,15 +1,9 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/reduxStore";
-import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../redux/reduxStore";
 import MenuFooter from "./footer";
 import Weather from "./weather";
 import supabase from "../../store";
 
-interface DataType {
-  dogthemabgdb: {
-    themabg: string[];
-  };
-}
 const DogMain = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
 
@@ -21,6 +15,7 @@ const DogMain = () => {
     if (data) {
       setSelectDog(data[0].dogurl);
     }
+    console.log(error);
   };
 
   const handleBg = async () => {

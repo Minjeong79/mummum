@@ -13,6 +13,7 @@ const userLoginSlice = createSlice({
       state.userId = user;
     },
     userLogout: (state, action) => {
+      console.log(state, action);
       return initialState;
     },
   },

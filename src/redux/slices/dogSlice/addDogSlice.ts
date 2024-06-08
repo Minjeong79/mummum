@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import addDogSelect from "../../thunks/dogthunk/addDogThunk";
 
 interface userDogData {
-  userUid:string;
-  dogSelect:string;
+  userUid: string;
+  dogSelect: string;
 }
 
-const initialState:userDogData = {
-  userUid:"",
-  dogSelect:"",
+const initialState: userDogData = {
+  userUid: "",
+  dogSelect: "",
 };
 
 const addDogSlice = createSlice({
@@ -17,13 +17,13 @@ const addDogSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addDogSelect.pending, (state, action) => {
+      .addCase(addDogSelect.pending, () => {
         console.log(`비동기 요청 중`);
       })
-      .addCase(addDogSelect.fulfilled, (state, action) => {
+      .addCase(addDogSelect.fulfilled, () => {
         console.log(`비동기 요청 성공`);
       })
-      .addCase(addDogSelect.rejected, (state, action) => {
+      .addCase(addDogSelect.rejected, () => {
         console.log(`비동기 요청 실패`);
       });
   },

@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.2.3",
     "@supabase/supabase-js": "^2.40.0",
     "axios": "^1.6.8",
+    "firebase-tools": "^13.11.2",
     "lodash": "^4.17.21",
     "nanoid": "^5.0.7",
     "react": "^18.2.0",
