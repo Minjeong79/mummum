@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/reduxStore";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { customAlphabet } from "nanoid";
 import { userWirteId } from "../../../redux/slices/user/userWriteSlice";
@@ -48,18 +48,13 @@ interface DataType {
   basicB: string;
 }
 
-interface BtImgType {
-
-}
 const Write = () => {
   const dispatch = useAppDispatch();
   const nav = useNavigate();
   const nanoid = customAlphabet("123456789", 9);
   const numId = Number(nanoid());
-  const { id } = useParams();
 
   const userUid = useAppSelector((state) => state.userLogin.userId);
-  const dbId = useAppSelector((state) => state.userWriteId.dbId);
   const selectDBId = useAppSelector((state) => state.userWriteId.selectId);
 
   const [imgList, setimgList] = useState<TopimgC[]>([]);
@@ -76,11 +71,11 @@ const Write = () => {
   const [updatedWalkImg, setUpdatedWalkImg] = useState("");
   const [updatedBasicW, setUpdatedBasicW] = useState("");
 
-  const [changeValue, setChangeValue] =  useState(false);
-  const [changeEValue, setChangeEValue] =  useState(false);
-  const [changePValue, setChangePValue] =  useState(false);
-  const [changeHValue, setChangeHValue] =  useState(false);
-  const [changeBValue, setChangeBValue] =  useState(false);
+  const [changeValue, setChangeValue] = useState(false);
+  const [changeEValue, setChangeEValue] = useState(false);
+  const [changePValue, setChangePValue] = useState(false);
+  const [changeHValue, setChangeHValue] = useState(false);
+  const [changeBValue, setChangeBValue] = useState(false);
   /////
   const imgTopListHandle = async () => {
     const { data, error } = await supabase.from("diarywriteimgtop").select();
@@ -112,7 +107,7 @@ const Write = () => {
 
   const handleImageClick = (item: string) => {
     if (selectDBId) {
-      setChangeValue(true)
+      setChangeValue(true);
       setUpdatedWalk(item);
       setUpdatedWalkImg(allimgList[0].walk);
       setUpdatedBasicW(imgList[0].imgurl);
@@ -127,27 +122,24 @@ const Write = () => {
   const hadleIageClicks = (item: string) => {
     setBtnBtSelects([...btnBtSelects, item]);
     if (selectDBId) {
-      if(item === "밥"){
-        setChangeEValue(true)
+      if (item === "밥") {
+        setChangeEValue(true);
       }
-    } 
-    if (selectDBId) {
-      if(item === "약"){
-        setChangePValue(true)
-      }
-     
     }
     if (selectDBId) {
-      if(item === "병원"){
-        setChangeHValue(true)
+      if (item === "약") {
+        setChangePValue(true);
       }
-      
     }
     if (selectDBId) {
-      if(item === "미용"){
-        setChangeBValue(true)
+      if (item === "병원") {
+        setChangeHValue(true);
       }
-      
+    }
+    if (selectDBId) {
+      if (item === "미용") {
+        setChangeBValue(true);
+      }
     }
   };
 
@@ -161,7 +153,6 @@ const Write = () => {
     }
   };
 
- 
   //처음 데이터 임력 시
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -205,6 +196,7 @@ const Write = () => {
         basicH: hospital != "미완" ? imgBmListC[2].imgurl : null,
         basicB: beauty != "미완" ? imgBmListC[3].imgurl : null,
       });
+      console.log(error);
       setTextValue("");
 
       dispatch(userWirteId(numId));
@@ -245,24 +237,56 @@ const Write = () => {
         const { error } = await supabase
           .from("writedb")
           .update({
-            walk: (item.walk === "산책 미완" && changeValue)? updatedWalk : item.walk,
+            walk:
+              item.walk === "산책 미완" && changeValue
+                ? updatedWalk
+                : item.walk,
             walkimg: item.walk === "산책 미완" ? updatedWalkImg : item.walkimg,
             basicW: item.walk === "산책 미완" ? updatedBasicW : item.basicW,
-            eat: (item.eat === "미완" && changeEValue) ? eat : item.eat,
-            eatimg: (item.eat === "미완" && changeEValue) ? allimgList[0].eat : item.eatimg,
-            basicE: (item.eat === "미완" && changeEValue) ? imgBmListC[0].imgurl: item.basicE ,
-            pill: (item.pill === "미완" && changePValue) ? pill : item.pill,
-            pillimg: (item.pill === "미완" && changePValue) ? allimgList[0].pill : item.pillimg,
-            basicP: (item.pill === "미완" && changePValue) ? imgBmListC[1].imgurl : item.basicP,
-            hospital:(item.hospital === "미완" && changeHValue) ? hospital : item.hospital ,
-            hospitalimg: (item.hospital === "미완" && changeHValue) ? allimgList[0].hospital : item.hospitalimg,
-            basicH: (item.hospital === "미완" && changeHValue) ? imgBmListC[2].imgurl : item.basicH,
-            beauty: (item.beauty === "미완" && changeBValue) ? beauty : item.beauty,
-            beautyimg: (item.beauty === "미완" && changeBValue) ? allimgList[0].beauty : item.beautyimg,
-            basicB:(item.beauty === "미완" && changeBValue)? imgBmListC[3].imgurl : item.basicB,
+            eat: item.eat === "미완" && changeEValue ? eat : item.eat,
+            eatimg:
+              item.eat === "미완" && changeEValue
+                ? allimgList[0].eat
+                : item.eatimg,
+            basicE:
+              item.eat === "미완" && changeEValue
+                ? imgBmListC[0].imgurl
+                : item.basicE,
+            pill: item.pill === "미완" && changePValue ? pill : item.pill,
+            pillimg:
+              item.pill === "미완" && changePValue
+                ? allimgList[0].pill
+                : item.pillimg,
+            basicP:
+              item.pill === "미완" && changePValue
+                ? imgBmListC[1].imgurl
+                : item.basicP,
+            hospital:
+              item.hospital === "미완" && changeHValue
+                ? hospital
+                : item.hospital,
+            hospitalimg:
+              item.hospital === "미완" && changeHValue
+                ? allimgList[0].hospital
+                : item.hospitalimg,
+            basicH:
+              item.hospital === "미완" && changeHValue
+                ? imgBmListC[2].imgurl
+                : item.basicH,
+            beauty:
+              item.beauty === "미완" && changeBValue ? beauty : item.beauty,
+            beautyimg:
+              item.beauty === "미완" && changeBValue
+                ? allimgList[0].beauty
+                : item.beautyimg,
+            basicB:
+              item.beauty === "미완" && changeBValue
+                ? imgBmListC[3].imgurl
+                : item.basicB,
             content: txtValue,
           })
           .eq("id", selectDBId);
+        console.log(error);
       });
 
       setTextValue("");

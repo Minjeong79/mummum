@@ -11,7 +11,7 @@ const addDogNameTHunk = createAsyncThunk(
         .from("dognamedb")
         .insert({ uuid: userUid, dogName: dogName });
 
-      // console.log(error);
+      console.log(error);
       const selectThema = {
         userUid,
         dogName,

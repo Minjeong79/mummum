@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/reduxStore";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../store";
 
@@ -9,7 +8,6 @@ interface BackBgType {
   menutext: string;
 }
 const MenuFooter = () => {
-  const dispatch = useAppDispatch();
   const nav = useNavigate();
 
   const [menuUrlList, setMenuUrlList] = useState<BackBgType[]>([]);
@@ -23,10 +21,25 @@ const MenuFooter = () => {
     }
   };
 
-  const handleMenu = async () => {
-    const { data, error } = await supabase.from("writedb").select();
-    console.log(data);
-    nav(`/List`);
+  const handleMenu = async (item: string) => {
+    const { error } = await supabase.from("writedb").select();
+    switch (item) {
+      case "일기":
+        nav(`/List`);
+        break;
+      case "산책":
+        nav(`/List`);
+        break;
+      case "커뮤":
+        nav(`/communityList`);
+        break;
+      case "설정":
+        nav(`/communityList`);
+        break;
+      default:
+        console.log("완료");
+    }
+    console.log(error);
     // nav(`/write`);
   };
 
@@ -63,7 +76,7 @@ const MenuFooter = () => {
                 <img
                   src={item.backurl}
                   alt="메뉴 이미지"
-                  onClick={handleMenu}
+                  onClick={() => handleMenu(item.menutext)}
                 />
                 <p
                   style={{
