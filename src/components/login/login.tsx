@@ -16,7 +16,7 @@ const LoginPage = () => {
 
   async function signInWithKakao() {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "kakao",
         options: {
           redirectTo: `https://zbjwkpzadmxggyahexgv.supabase.co/auth/v1/callback`,
