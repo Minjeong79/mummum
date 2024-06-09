@@ -22,6 +22,7 @@ const LoginPage = () => {
           redirectTo: `https://zbjwkpzadmxggyahexgv.supabase.co/auth/v1/callback`,
         },
       });
+      console.log(data);
       console.log(error);
     } catch (error) {
       console.error("카카오 로그인 중 오류 발생:", error);
