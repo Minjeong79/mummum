@@ -19,7 +19,7 @@ const LoginPage = () => {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "kakao",
         options: {
-          redirectTo: `https://mummum-mocha.vercel.app/`,
+          redirectTo: `https://mummum-mocha.vercel.app/auth/callback`,
         },
       });
       console.log(data);
