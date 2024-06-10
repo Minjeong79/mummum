@@ -97,7 +97,7 @@ const Weather = () => {
   const coord = new kakao.maps.LatLng(latitude, longitude);
 
   const handleGeocoder = async () => {
-    console.log("click");
+    console.log(kakao);
 
     const callback = async function (result: ResultItem[], status: string) {
       if (status === kakao.maps.services.Status.OK) {
