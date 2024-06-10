@@ -84,7 +84,7 @@ const Weather = () => {
       });
       dispatch(mainDust(response.data.response.body.items));
       // dispatch(mainDust(response.data));
-      // setDataUrl(response.data);
+      console.log(response.data.response);
     } catch (error) {
       console.log(error);
     }
@@ -111,12 +111,14 @@ const Weather = () => {
   };
 
   const handleComparison = () => {
-    dustList.map((item: CityDataList) => {
+    dustList.map((item: CityDataList) =>
+    {
       if (item.cityName === addressName) {
         const list = [item.cityName, item.pm10Value, item.pm25Value];
         setCheckData(list);
       }
-    });
+   }
+  );
   };
 
   useEffect(() => {
@@ -128,11 +130,11 @@ const Weather = () => {
     handleDogName();
   }, []);
 
-  useEffect(() => {
-    if (latitude && longitude) {
-      handleGeocoder();
-    }
-  }, [latitude, longitude]);
+  // useEffect(() => {
+  //   if (latitude && longitude) {
+  //     handleGeocoder();
+  //   }
+  // }, [latitude, longitude]);
 
   //console.log(typeof Object.values(dustList)[1]);
   return (
