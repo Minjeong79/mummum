@@ -19,11 +19,11 @@
 
 // export default WalkPage;
 import { useState, useEffect } from "react";
-import useGeolocation from "react-hook-geolocation";
+// import useGeolocation from "react-hook-geolocation";
 
 const WalkPage = () => {
   const [walks, setWalks] = useState(0);
-  const geolocation = useGeolocation();
+  // const geolocation = useGeolocation();
 
   useEffect(() => {
     const handleWalk = () => {
