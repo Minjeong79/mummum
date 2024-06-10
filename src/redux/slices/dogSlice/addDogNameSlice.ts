@@ -11,13 +11,13 @@ const addDogNameSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addDogNameTHunk.pending, (state, action) => {
+      .addCase(addDogNameTHunk.pending, () => {
         console.log(`비동기 이름 요청 중`);
       })
-      .addCase(addDogNameTHunk.fulfilled, (state, action) => {
+      .addCase(addDogNameTHunk.fulfilled, () => {
         console.log(`비동기 이름 성공`);
       })
-      .addCase(addDogNameTHunk.rejected, (state, action) => {
+      .addCase(addDogNameTHunk.rejected, () => {
         console.log(`비동기 이름 요청 실패`);
       });
   },

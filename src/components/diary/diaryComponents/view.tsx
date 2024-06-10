@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../redux/reduxStore";
-import { useParams } from "react-router-dom";
+import { useAppSelector } from "../../../redux/reduxStore";
+// import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../store";
 
@@ -27,7 +27,6 @@ interface DataType {
 }
 const View = () => {
   const nav = useNavigate();
-  const { id } = useParams();
 
   const selectDBId = useAppSelector((state) => state.userWriteId.selectId);
 
@@ -48,17 +47,17 @@ const View = () => {
     nav(`/view/${selectDBId}`);
   };
   console.log(selectDBId);
-  
-  const hadleDelete = async(selectDBId: number)=>{
-    console.log('click');
-    window.confirm('삭제 하시겠습니까?')
-      const { error } = await supabase
-      .from('writedb')
+
+  const hadleDelete = async (selectDBId: number) => {
+    console.log("click");
+    window.confirm("삭제 하시겠습니까?");
+    const { error } = await supabase
+      .from("writedb")
       .delete()
-      .eq('id', selectDBId);
-      
-      nav(`/list`);
-    }
+      .eq("id", selectDBId);
+    console.log(error);
+    nav(`/list`);
+  };
   useEffect(() => {
     handleDb();
   }, []);

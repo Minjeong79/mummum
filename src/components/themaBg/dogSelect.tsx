@@ -8,7 +8,7 @@ const DogSelect = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
   const dispatch = useAppDispatch();
   const nav = useNavigate();
-  
+
   const [imageUrlList, setImageUrlList] = useState<string[]>([]);
 
   const imgListHandle = async () => {

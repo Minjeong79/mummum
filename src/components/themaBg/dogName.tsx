@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/reduxStore";
 import { useNavigate } from "react-router-dom";
 import addDogNameTHunk from "../../redux/thunks/dogthunk/addDogNameThunk";
@@ -13,11 +13,11 @@ const DogName = () => {
   const handleInput = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await dispatch(addDogNameTHunk({ userUid: userUid, dogName: myDogName }));
+      await dispatch(addDogNameTHunk({ uuid: userUid, dogname: myDogName }));
       setMyDogName("");
       nav(`/dogMain`);
     } catch (error) {
-      console.log(error);
+      console.log(error); 
     }
   };
   return (

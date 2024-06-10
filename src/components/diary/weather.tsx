@@ -1,81 +1,64 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/reduxStore";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import useGeolocation from "react-hook-geolocation";
 import axios from "axios";
 import { mainDust } from "../../redux/slices/mainSlice/mainPageSlice";
+import { mainCity } from "../../redux/slices/mainSlice/mainCitySlice";
 import supabase from "../../store";
- 
-type CityData = {
-  response: {
-    body: {
-      totalCount: number;
-      items: {
-        cityName: string;
-        cityNameEng: string;
-        coValue: string;
-        dataGubun: string;
-        dataTime: string;
-        districtCode: string;
-        districtNumSeq: string;
-        itemCode: string;
-        khaiValue: string;
-        no2Value: string;
-        numOfRows: string;
-        o3Value: string;
-        pageNo: string;
-        pm10Value: string;
-        pm25Value: string;
-        resultCode: string;
-        resultMsg: string;
-        returnType: string;
-        searchCondition: string;
-        serviceKey: string;
-        sidoName: string;
-        so2Value: string;
-        totalCount: string;
-      }[];
-    };
-  };
-};
-const initialDataUrl: CityData = {
-  response: {
-    body: {
-      totalCount: 0,
-      items: [],
-    },
-  },
-};
-interface CityPm {
+
+interface CityDataList {
   cityName: string;
+  cityNameEng: string;
+  coValue: string;
+  dataGubun: string;
+  dataTime: string;
+  districtCode: string;
+  districtNumSeq: string;
+  itemCode: string;
+  khaiValue: string;
+  no2Value: string;
+  numOfRows: string;
+  o3Value: string;
+  pageNo: string;
   pm10Value: string;
   pm25Value: string;
+  resultCode: string;
+  resultMsg: string;
+  returnType: string;
+  searchCondition: string;
+  serviceKey: string;
+  sidoName: string;
+  so2Value: string;
+  totalCount: string;
 }
-
+interface Address {
+  address_name: string;
+  region_1depth_name: string;
+  region_2depth_name: string;
+  region_3depth_name: string;
+  mountain_yn: string;
+  main_address_no: string;
+  sub_address_no: string;
+  zip_code: string;
+}
+interface ResultItem {
+  address: Address;
+}
 const Weather = () => {
   const dispatch = useAppDispatch();
 
-  const dustList = useAppSelector((state)=>state.mainDust.response);
+  const dustList = useAppSelector((state) => state.mainDust.response);
+  const addressName = useAppSelector((state) => state.mainCity.cName);
   const [myDogName, setMyDogName] = useState("");
-  const [addressName, setAddressName] = useState("");
-  const [loading, setLoading] = useState(true);
 
   //미세먼지
-  const [dataUrl, setDataUrl] = useState<CityData>(initialDataUrl);
-  const [cityData, setCityData] = useState<CityPm[]>([]);
   const [checkData, setCheckData] = useState<string[]>([]);
-
-  //프로필 이미지
-  const [pofilImg, setProfilImg] = useState("");
 
   const URL =
     "http://apis.data.go.kr/B552584/ArpltnStatsSvc/getCtprvnMesureSidoLIst";
   const SERVICE_KEY =
-    "8HRm1o68X5CSUrMEIAk6vFK2Fgi%2F1un6PVwE%2Bn0%2BwixdBFO%2F";
-
-  const geolocation = useGeolocation();
-  const latitude = geolocation.latitude;
-  const longitude = geolocation.longitude;
+    "Y1TEjuVO5hEMU0yG1YY7J9dJvRQbv%2B87%2FsewOQKgQa9JnI2l9Xyj%2FZm5gnvsy1Hu%2FBVCW3WofoTKePCW1ZTrkA%3D%3D";
 
   const handleDogName = async () => {
     const { data, error } = await supabase.from("dognamedb").select("dogname");
@@ -100,106 +83,62 @@ const Weather = () => {
         },
       });
       dispatch(mainDust(response.data.response.body.items));
-      setDataUrl(response.data);
+      // dispatch(mainDust(response.data));
+      console.log(response.data.response);
     } catch (error) {
       console.log(error);
     }
-  };
+  };  
+ 
+  const geolocation = useGeolocation();
+  const latitude = geolocation.latitude;
+  const longitude = geolocation.longitude;
+  const geocoder = new kakao.maps.services.Geocoder();
+  const coord = new kakao.maps.LatLng(latitude, longitude);
 
   const handleGeocoder = async () => {
-    const geocoder = new window.kakao.maps.services.Geocoder();
-    const coord = new window.kakao.maps.LatLng(latitude, longitude);
-    const callback = async function (result: any, status: string) {
-      if (status === window.kakao.maps.services.Status.OK) {
+    console.log(kakao);
+
+    const callback = async function (result: ResultItem[], status: string) {
+      if (status === kakao.maps.services.Status.OK) {
         const adr = result[0].address.region_2depth_name;
-        await setAddressName(adr);
+        await dispatch(mainCity(adr));
       }
+      console.log(result);
     };
-    setLoading(false);
+
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
   };
 
-  const handleData = async () => {
-    if (dataUrl !== null) {
-      const itemsList = dataUrl.response.body.items;
-      const newData = itemsList.map((item: CityPm) => {
-        const { cityName, pm10Value, pm25Value } = item;
-        return {
-          cityName,
-          pm10Value,
-          pm25Value,
-        };
-      });
-      setCityData(newData);
-    }
-  };
-
   const handleComparison = () => {
-    cityData.map((item) => {
+    dustList.map((item: CityDataList) =>
+    {
       if (item.cityName === addressName) {
         const list = [item.cityName, item.pm10Value, item.pm25Value];
         setCheckData(list);
       }
-    });
+   }
+  );
   };
 
   useEffect(() => {
-    // handleGeocoder();
+    const fetchData_list = async () => {
+      await fetchData();
+      await handleComparison();
+    };
+    fetchData_list();
     handleDogName();
-    fetchData();
   }, []);
 
   useEffect(() => {
-    handleData();
-  }, [dataUrl]);
+    if (latitude && longitude) {
+      handleGeocoder();
+    }
+  }, [latitude, longitude]);
 
-  useEffect(() => {
-    // console.log(cityData);
-    handleComparison();
-  }, [cityData]);
-
-  // useEffect(() => {
-  //   handleGeocoder();
-  // }, [loading]);
-
-  const handleImgUpload = async (event: any) => {
-    const avatarFile = event.target.files[0];
-    const fileName = avatarFile.name;
-    const { data, error } = await supabase.storage
-      .from("imgProfil")
-      .upload(`/profil/${fileName}`, avatarFile, {
-        cacheControl: "3600",
-        upsert: false,
-      });
-  };
-console.log(dustList);
+  //console.log(typeof Object.values(dustList)[1]);
   return (
     <section>
-      <div
-        style={{
-          background: "#d9d9d9",
-          width: "150px",
-          height: "150px",
-          borderRadius: "100%",
-          textAlign: "center",
-          margin: "auto",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            background: "#f1f1f1",
-            width: "50px",
-            height: "50px",
-            borderRadius: "100%",
-            textAlign: "center",
-            margin: "auto",
-          }}
-        >
-          <input type="file" accept="img/*" onChange={handleImgUpload} />
-        </div>
-      </div>
       <div
         style={{
           display: "flex",
@@ -226,6 +165,7 @@ console.log(dustList);
         </h3>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <div>미세먼지</div>
+
           <div>
             {Number(checkData[1]) <= 30
               ? "좋음"
@@ -248,7 +188,7 @@ console.log(dustList);
               : "매우나쁨"}
           </div>
         </div>
-        <div>{addressName}</div>
+        <div>{}</div>
       </div>
     </section>
   );

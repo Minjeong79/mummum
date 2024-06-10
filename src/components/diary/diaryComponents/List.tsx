@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/reduxStore";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { customAlphabet } from "nanoid";
 import { userSelectId } from "../../../redux/slices/user/userWriteSlice";
 import supabase from "../../../store";
 

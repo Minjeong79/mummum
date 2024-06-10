@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/reduxStore";
+import { useAppDispatch } from "../../redux/reduxStore";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../store";
 import {
@@ -18,14 +18,19 @@ const LoginPage = () => {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "kakao",
+        options: {
+          redirectTo: `https://zbjwkpzadmxggyahexgv.supabase.co/auth/v1/callback`,
+        },
       });
+      console.log(data);
+      console.log(error);
     } catch (error) {
       console.error("카카오 로그인 중 오류 발생:", error);
     }
   }
 
   async function google() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         queryParams: {
@@ -34,6 +39,7 @@ const LoginPage = () => {
         },
       },
     });
+    console.log(error);
   }
 
   const dogSelectHandle = () => {
@@ -61,7 +67,7 @@ const LoginPage = () => {
 
   const kakakoSignOut = async () => {
     const { error } = await supabase.auth.signOut();
-
+    console.log(error);
     dispatch(userLogout(userUid));
   };
 
