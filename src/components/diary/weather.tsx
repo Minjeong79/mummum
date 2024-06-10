@@ -130,11 +130,11 @@ const Weather = () => {
     handleDogName();
   }, []);
 
-  // useEffect(() => {
-  //   if (latitude && longitude) {
-  //     handleGeocoder();
-  //   }
-  // }, [latitude, longitude]);
+  useEffect(() => {
+    if (latitude && longitude) {
+      handleGeocoder();
+    }
+  }, [latitude, longitude]);
 
   //console.log(typeof Object.values(dustList)[1]);
   return (
