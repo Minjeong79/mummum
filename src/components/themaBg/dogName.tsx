@@ -13,7 +13,7 @@ const DogName = () => {
   const handleInput = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await dispatch(addDogNameTHunk({ userUid: userUid, dogName: myDogName }));
+      await dispatch(addDogNameTHunk({ uuid: userUid, dogname: myDogName }));
       setMyDogName("");
       nav(`/dogMain`);
     } catch (error) {
