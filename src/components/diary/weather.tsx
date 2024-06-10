@@ -93,19 +93,19 @@ const Weather = () => {
   const geolocation = useGeolocation();
   const latitude = geolocation.latitude;
   const longitude = geolocation.longitude;
-  // const geocoder = new kakao.maps.services.Geocoder();
-  // const coord = new kakao.maps.LatLng(latitude, longitude);
+  const geocoder = new kakao.maps.services.Geocoder();
+  const coord = new kakao.maps.LatLng(latitude, longitude);
 
-  // const handleGeocoder = async () => {
-  //   const callback = async function (result: ResultItem[], status: string) {
-  //     if (status === kakao.maps.services.Status.OK) {
-  //       const adr = result[0].address.region_2depth_name;
-  //       await dispatch(mainCity(adr));
-  //     }
-  //   };
+  const handleGeocoder = async () => {
+    const callback = async function (result: ResultItem[], status: string) {
+      if (status === kakao.maps.services.Status.OK) {
+        const adr = result[0].address.region_2depth_name;
+        await dispatch(mainCity(adr));
+      }
+    };
 
-  //   geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-  // };
+    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+  };
 
   const handleComparison = () => {
     dustList.map((item: CityDataList) =>
@@ -127,13 +127,13 @@ const Weather = () => {
     handleDogName();
   }, []);
 
-  // useEffect(() => {
-  //   if (latitude && longitude) {
-  //     handleGeocoder();
-  //   }
-  // }, [latitude, longitude]);
+  useEffect(() => {
+    if (latitude && longitude) {
+      handleGeocoder();
+    }
+  }, [latitude, longitude]);
 
-  //console.log(typeof Object.values(dustList)[1]);
+  console.log(typeof Object.values(dustList)[1]);
   return (
     <section>
       <div
