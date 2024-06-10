@@ -11,6 +11,7 @@ import CommunityView from "./components/community/communityView";
 import CommunityList from "./components/community/communityList";
 import "./App.css";
 import DogName from "./components/themaBg/dogName";
+import WalkPage from "./components/walkPage";
 
 function App() {
   // const memoziedDispatches = useMemo(() => {
@@ -30,7 +31,8 @@ function App() {
         <Route path="/write" element={<Write />} />
         <Route path="/write/:id" element={<Write />} />
         <Route path="/view/:id" element={<View />} />
-        <Route path="/List" element={<List />} />
+        <Route path="/list" element={<List />} />
+        <Route path="/walkPage" element={<WalkPage/>} />
         <Route path="/communityWrite" element={<CommunityWrite />} />
         <Route path="/communityView/:id" element={<CommunityView />} />
         <Route path="/communityList" element={<CommunityList />} />
