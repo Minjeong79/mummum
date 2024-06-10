@@ -35,7 +35,7 @@ const MenuFooter = () => {
         break;
       case "설정":
         nav(`/communityList`);
-        break;
+        break; 
       default:
         console.log("완료");
     }
