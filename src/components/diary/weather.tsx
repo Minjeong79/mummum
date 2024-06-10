@@ -88,7 +88,7 @@ const Weather = () => {
     } catch (error) {
       console.log(error);
     }
-  };  
+  };
  
   const geolocation = useGeolocation();
   const latitude = geolocation.latitude;
@@ -97,14 +97,11 @@ const Weather = () => {
   const coord = new kakao.maps.LatLng(latitude, longitude);
 
   const handleGeocoder = async () => {
-    console.log(kakao);
-
     const callback = async function (result: ResultItem[], status: string) {
       if (status === kakao.maps.services.Status.OK) {
         const adr = result[0].address.region_2depth_name;
         await dispatch(mainCity(adr));
       }
-      console.log(result);
     };
 
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
