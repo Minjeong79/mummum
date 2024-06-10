@@ -28,7 +28,7 @@ const MenuFooter = () => {
         nav(`/List`);
         break;
       case "산책":
-        nav(`/List`);
+        nav(`/walkPage`);
         break;
       case "커뮤":
         nav(`/communityList`);
