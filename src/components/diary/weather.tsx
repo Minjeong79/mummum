@@ -88,8 +88,8 @@ const Weather = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
+  };  
+ 
   const geolocation = useGeolocation();
   const latitude = geolocation.latitude;
   const longitude = geolocation.longitude;
