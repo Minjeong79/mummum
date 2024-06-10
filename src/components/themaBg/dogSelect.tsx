@@ -30,7 +30,7 @@ const DogSelect = () => {
   };
 
   const imgClickhandle = async (item: string) => {
-    await dispatch(addDogSelect({ userUid: userUid, dogUrl: item }));
+    await dispatch(addDogSelect({ uuid: userUid, dogurl: item }));
     nav(`/themaSelect`);
   };
 

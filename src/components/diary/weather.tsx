@@ -45,6 +45,7 @@ interface Address {
 interface ResultItem {
   address: Address;
 }
+
 const Weather = () => {
   const dispatch = useAppDispatch();
 
@@ -56,7 +57,7 @@ const Weather = () => {
   const [checkData, setCheckData] = useState<string[]>([]);
 
   const URL =
-    "http://apis.data.go.kr/B552584/ArpltnStatsSvc/getCtprvnMesureSidoLIst";
+    "https://apis.data.go.kr/B552584/ArpltnStatsSvc/getCtprvnMesureSidoLIst";
   const SERVICE_KEY =
     "Y1TEjuVO5hEMU0yG1YY7J9dJvRQbv%2B87%2FsewOQKgQa9JnI2l9Xyj%2FZm5gnvsy1Hu%2FBVCW3WofoTKePCW1ZTrkA%3D%3D";
 
@@ -93,18 +94,16 @@ const Weather = () => {
   const geolocation = useGeolocation();
   const latitude = geolocation.latitude;
   const longitude = geolocation.longitude;
+  // const { kakao } = window;
   const geocoder = new kakao.maps.services.Geocoder();
   const coord = new kakao.maps.LatLng(latitude, longitude);
 
   const handleGeocoder = async () => {
-    console.log("click");
-
     const callback = async function (result: ResultItem[], status: string) {
       if (status === kakao.maps.services.Status.OK) {
         const adr = result[0].address.region_2depth_name;
         await dispatch(mainCity(adr));
       }
-      console.log(result);
     };
 
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
@@ -134,7 +133,6 @@ const Weather = () => {
     }
   }, [latitude, longitude]);
 
-  //console.log(typeof Object.values(dustList)[1]);
   return (
     <section>
       <div
@@ -167,9 +165,9 @@ const Weather = () => {
           <div>
             {Number(checkData[1]) <= 30
               ? "좋음"
-              : 31 < Number(checkData[1]) && Number(checkData[1]) <= 80
+              : 31 <= Number(checkData[1]) && Number(checkData[1]) <= 80
               ? "보통"
-              : 81 < Number(checkData[1]) && Number(checkData[1]) <= 150
+              : 81 <= Number(checkData[1]) && Number(checkData[1]) <= 150
               ? "나쁨"
               : "매우나쁨"}
           </div>
@@ -179,9 +177,9 @@ const Weather = () => {
           <div>
             {Number(checkData[2]) <= 15
               ? "좋음"
-              : 16 < Number(checkData[2]) && Number(checkData[1]) <= 35
+              : 16 <= Number(checkData[2]) && Number(checkData[1]) <= 35
               ? "보통"
-              : 36 < Number(checkData[2]) && Number(checkData[1]) <= 75
+              : 36 <= Number(checkData[2]) && Number(checkData[1]) <= 75
               ? "나쁨"
               : "매우나쁨"}
           </div>

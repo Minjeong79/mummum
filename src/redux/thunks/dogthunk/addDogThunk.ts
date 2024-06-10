@@ -3,17 +3,17 @@ import supabase from "../../../store";
 
 const addDogSelect = createAsyncThunk(
   "user/addDog",
-  async (iddata: { userUid: string; dogUrl: string }) => {
+  async (iddata: { uuid: string; dogurl: string }) => {
     try {
-      const { userUid, dogUrl } = iddata;
+      const { uuid, dogurl } = iddata;
       console.log(iddata);
       const { error } = await supabase
         .from("userdb_0")
-        .insert({ uuid: userUid, dogurl: dogUrl });
+        .insert({ uuid: uuid, dogurl: dogurl });
       console.log(error);
       const user = {
-        userUid,
-        dogUrl,
+        uuid,
+        dogurl,
       };
       return user;
     } catch (error) {
