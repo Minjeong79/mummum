@@ -1,0 +1,13 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+ul,
+ol {
+    list-style: none;
+    padding: 0px;
+}
+
+img {
+    width: 100%;
+}

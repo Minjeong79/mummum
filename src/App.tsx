@@ -9,10 +9,9 @@ import List from "./components/diary/diaryComponents/List";
 import CommunityWrite from "./components/community/communityWrite";
 import CommunityView from "./components/community/communityView";
 import CommunityList from "./components/community/communityList";
-import "./App.css";
 import DogName from "./components/themaBg/dogName";
 import WalkPage from "./components/walk/walkPage";
-
+import './style/style.css'
 function App() {
   // const memoziedDispatches = useMemo(() => {
   //   return {

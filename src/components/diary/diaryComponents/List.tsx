@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { userSelectId } from "../../../redux/slices/user/userWriteSlice";
 import supabase from "../../../store";
 
-import "../../../App.css";
 
 interface DataType {
   id: number;
