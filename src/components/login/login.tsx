@@ -6,6 +6,7 @@ import {
   userLogin,
   userLogout,
 } from "../../redux/slices/loginSlice/userLoginSlice";
+import '../../style/style.css';
 
 const LoginPage = () => {
   const [imageUrlList, setImageUrlList] = useState<string>("");
@@ -29,18 +30,18 @@ const LoginPage = () => {
     }
   }
 
-  async function google() {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
-    });
-    console.log(error);
-  }
+  // async function google() {
+  //   const { error } = await supabase.auth.signInWithOAuth({
+  //     provider: "google",
+  //     options: {
+  //       queryParams: {
+  //         access_type: "offline",
+  //         prompt: "consent",
+  //       },
+  //     },
+  //   });
+  //   console.log(error);
+  // }
 
   const dogSelectHandle = () => {
     nav(`/dogSelect`);
@@ -79,23 +80,29 @@ const LoginPage = () => {
   //   kakakoSignOut();
   // }, []);
   return (
-    <>
-      {userUid}
-      <div>
-        <img src={imageUrlList} alt="강아지 캐릭터" />
+    <section className="container mx-auto bg-orange-200">
+      <div className="flex flex-col items-center gap-y-3">
+        <h3 className="">
+          멈멈이랑 놀아줘!<br/>
+          너의 멈멈이를 기록 해줘!
+        </h3>
+        {userUid}
+          <div className="max-w-36 mx-auto h-screen">
+            <img src={imageUrlList} alt="강아지 캐릭터" />
+          </div>
+          {userUid ? (
+            <div>
+              <button className="sm:bg-blue-300 md:w-32" onClick={dogSelectHandle}>강아지 선택</button>
+              <button onClick={kakakoSignOut}>로그아웃</button>
+            </div>
+          ) : (
+            <div className="max-w-48 mx-auto">
+              <button className="bg-white max-w-48 " onClick={signInWithKakao}>카카오 로그인</button>
+              {/* <button onClick={google}>구글 로그인</button> */}
+            </div>
+          )}
       </div>
-      {userUid ? (
-        <div>
-          <button onClick={dogSelectHandle}>강아지 선택</button>
-          <button onClick={kakakoSignOut}>로그아웃</button>
-        </div>
-      ) : (
-        <div>
-          <button onClick={signInWithKakao}>카카오 로그인</button>
-          <button onClick={google}>구글 로그인</button>
-        </div>
-      )}
-    </>
+    </section>
   );
 };
 

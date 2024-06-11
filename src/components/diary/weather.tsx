@@ -58,7 +58,7 @@ const Weather = () => {
   const URL =
     "http://apis.data.go.kr/B552584/ArpltnStatsSvc/getCtprvnMesureSidoLIst";
   const SERVICE_KEY =
-    "Y1TEjuVO5hEMU0yG1YY7J9dJvRQbv%2B87%2FsewOQKgQa9JnI2l9Xyj%2FZm5gnvsy1Hu%2FBVCW3WofoTKePCW1ZTrkA%3D%3D";
+    "Y1TEjuVO5hEMU0yG1YY7J9dJvRQbv+87/sewOQKgQa9JnI2l9Xyj/Zm5gnvsy1Hu/BVCW3WofoTKePCW1ZTrkA==";
 
   const handleDogName = async () => {
     const { data, error } = await supabase.from("dognamedb").select("dogname");
@@ -82,7 +82,6 @@ const Weather = () => {
           searchCondition: "HOUR",
         },
       });
-      console.log(response.data);
       dispatch(mainDust(response.data.response.body.items));
       // dispatch(mainDust(response.data));
       handleComparison();
@@ -133,9 +132,9 @@ const Weather = () => {
     }
   }, [latitude, longitude]);
 
-  // console.log(typeof Object.values(dustList)[1]);
+  console.log(dustList);
   return (
-    <section>
+    <section className="container">
       <div
         style={{
           display: "flex",
