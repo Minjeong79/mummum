@@ -76,15 +76,16 @@ const Weather = () => {
         params: {
           serviceKey: SERVICE_KEY,
           returnType: "json",
-          // numOfRows: 25,
-          // pageNo: 1,
+          numOfRows: 25,
+          pageNo: 1,
           sidoName: "서울",
           searchCondition: "HOUR",
         },
       });
+      console.log(response.data);
       dispatch(mainDust(response.data.response.body.items));
       // dispatch(mainDust(response.data));
-      console.log(response.data.response);
+      handleComparison();
     } catch (error) {
       console.log(error);
     }
@@ -121,8 +122,7 @@ const Weather = () => {
   useEffect(() => {
     const fetchData_list = async () => {
       await fetchData();
-      await handleComparison();
-    };
+    }
     fetchData_list();
     handleDogName();
   }, []);
@@ -133,7 +133,7 @@ const Weather = () => {
     }
   }, [latitude, longitude]);
 
-  console.log(typeof Object.values(dustList)[1]);
+  // console.log(typeof Object.values(dustList)[1]);
   return (
     <section>
       <div
