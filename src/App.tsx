@@ -11,7 +11,7 @@ import CommunityView from "./components/community/communityView";
 import CommunityList from "./components/community/communityList";
 import "./App.css";
 import DogName from "./components/themaBg/dogName";
-import WalkPage from "./components/walkPage";
+import WalkPage from "./components/walk/walkPage";
 
 function App() {
   // const memoziedDispatches = useMemo(() => {
