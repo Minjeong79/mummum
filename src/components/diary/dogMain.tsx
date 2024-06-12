@@ -45,32 +45,16 @@ const DogMain = () => {
 
   return (
     <section
-      className="back_bg"
-      style={{
-        backgroundImage: `url(${backBg})`,
-        backgroundSize: "cover",
-        height: "100%",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        position: "relative",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
+      className="mx-auto h-screen"
+      style={{ backgroundImage: `url(${backBg})` }}
     >
-      <Weather />
-
-      <div
-        style={{
-          position: "absolute",
-          bottom: "11rem",
-        }}
-      >
-        <img src={selectDog} alt="강아지" />
+      <div className="flex flex-col justify-between items-center min-h-screen">
+        <Weather />
+        <div className="">
+          <img src={selectDog} alt="강아지" />
+        </div>
+        <MenuFooter />
       </div>
-
-      <MenuFooter />
     </section>
   );
 };

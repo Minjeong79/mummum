@@ -89,7 +89,7 @@ const Weather = () => {
       console.log(error);
     }
   };
- 
+
   const geolocation = useGeolocation();
   const latitude = geolocation.latitude;
   const longitude = geolocation.longitude;
@@ -108,20 +108,18 @@ const Weather = () => {
   };
 
   const handleComparison = () => {
-    dustList.map((item: CityDataList) =>
-    {
+    dustList.map((item: CityDataList) => {
       if (item.cityName === addressName) {
         const list = [item.cityName, item.pm10Value, item.pm25Value];
         setCheckData(list);
       }
-   }
-  );
+    });
   };
 
   useEffect(() => {
     const fetchData_list = async () => {
       await fetchData();
-    }
+    };
     fetchData_list();
     handleDogName();
   }, []);
@@ -134,32 +132,10 @@ const Weather = () => {
 
   console.log(dustList);
   return (
-    <section className="container">
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          width: "250px",
-          height: "150px",
-          background: "#222",
-          opacity: "80%",
-          color: "#fff",
-          borderRadius: "14px",
-          marginTop: "-20px",
-        }}
-      >
-        <h3
-          style={{
-            fontSize: "20px",
-            fontWeight: "normal",
-            textAlign: "center",
-            margin: "0px",
-          }}
-        >
-          {myDogName}
-        </h3>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
+    <section className="mt-9">
+      <div className="flex flex-col justify-evenly w-60 h-36 bg-[#222] opacity-80 text-white rounded-[14px] ">
+        <h3 className="text-xl text-center m-0">{myDogName}</h3>
+        <div className="flex justify-around">
           <div>미세먼지</div>
 
           <div>
@@ -172,7 +148,7 @@ const Weather = () => {
               : "매우나쁨"}
           </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div className="flex justify-around">
           <div>초 미세먼지</div>
           <div>
             {Number(checkData[2]) <= 15
