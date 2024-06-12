@@ -80,41 +80,43 @@ const LoginPage = () => {
   //   kakakoSignOut();
   // }, []);
   return (
-    <section className="container mx-auto bg-[#FFEAD9] h-screen">
-      <div className="flex flex-col justify-center items-center min-h-screen">
-        <div className="flex flex-col items-center gap-y-20">
-          <h3 className="text-3xl text-center py-3">
-            멈멈이랑 놀아줘!
-            <br />
-            멈멈이를 기록 해줘!
-          </h3>
-          {userUid}
-          <div className="max-w-40 mx-auto  ">
-            <img src={imageUrlList} alt="강아지 캐릭터" />
+    <section className="bg-[#E9CEB9]">
+      <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
+        <div className="flex flex-col justify-center items-center min-h-screen">
+          <div className="flex flex-col items-center gap-y-20">
+            <h3 className="text-3xl text-center py-3">
+              멈멈이랑 놀아줘!
+              <br />
+              멈멈이를 기록 해줘!
+            </h3>
+            {userUid}
+            <div className="max-w-40 mx-auto  ">
+              <img src={imageUrlList} alt="강아지 캐릭터" />
+            </div>
+            {userUid ? (
+              <div>
+                <button
+                  className="sm:bg-blue-300 md:w-32"
+                  onClick={dogSelectHandle}
+                >
+                  강아지 선택
+                </button>
+                <button onClick={kakakoSignOut}>로그아웃</button>
+              </div>
+            ) : (
+              <div className="w-72 mx-auto">
+                <button
+                  className="bg-white w-72 h-10 rounded-lg"
+                  onClick={signInWithKakao}
+                >
+                  카카오 로그인
+                </button>
+                {/* <button onClick={google}>구글 로그인</button> */}
+              </div>
+            )}
           </div>
-          {userUid ? (
-            <div>
-              <button
-                className="sm:bg-blue-300 md:w-32"
-                onClick={dogSelectHandle}
-              >
-                강아지 선택
-              </button>
-              <button onClick={kakakoSignOut}>로그아웃</button>
-            </div>
-          ) : (
-            <div className="w-72 mx-auto">
-              <button
-                className="bg-white w-72 h-10 rounded-lg"
-                onClick={signInWithKakao}
-              >
-                카카오 로그인
-              </button>
-              {/* <button onClick={google}>구글 로그인</button> */}
-            </div>
-          )}
         </div>
-      </div>
+      </section>
     </section>
   );
 };
