@@ -45,7 +45,7 @@ const DogMain = () => {
 
   return (
     <section
-      className="mx-auto h-screen"
+      className="max-w-lg mx-auto h-screen"
       style={{ backgroundImage: `url(${backBg})` }}
     >
       <div className="flex flex-col justify-between items-center min-h-screen">
