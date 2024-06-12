@@ -39,22 +39,27 @@ const DogSelect = () => {
   }, []);
 
   return (
-    <section>
-      <ul style={{ display: "flex", width: "100px", height: "100px" }}>
-        {imageUrlList.map((item, index) => {
-          return (
-            <li key={index}>
-              <button id="" onClick={() => imgClickhandle(item)}>
-                <img
-                  style={{ width: "100px", height: "100px" }}
-                  src={item}
-                  alt="강아지이미지"
-                />
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+    <section className="container mx-auto bg-[#FFEAD9] h-screen">
+      <div className="flex flex-col justify-center items-center min-h-screen px-10">
+        <div className="flex flex-col items-center gap-y-36">
+          <h3 className="text-3xl text-center py-3">
+            멈멈이의 색상을
+            <br />
+            선택 해줘
+          </h3>
+          <ul className="flex flex-row justify-center items-center gap-x-9 mt-5">
+            {imageUrlList.map((item, index) => {
+              return (
+                <li key={index} className="max-w-40">
+                  <button id="" onClick={() => imgClickhandle(item)}>
+                    <img src={item} alt="강아지이미지" />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
     </section>
   );
 };

@@ -35,58 +35,29 @@ const MenuFooter = () => {
         break;
       case "설정":
         nav(`/communityList`);
-        break; 
+        break;
       default:
         console.log("완료");
     }
     console.log(error);
-    // nav(`/write`);
   };
 
   useEffect(() => {
     imgListHandle();
   }, []);
   return (
-    <section
-      style={{
-        zIndex: "9",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <div
-        style={{
-          background: "#222",
-          opacity: "80%",
-          width: "100%",
-          height: "150px",
-        }}
-      >
-        <ul
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            marginBottom: "0px",
-          }}
-        >
+    <section className="z-10 w-full ">
+      <div className="bg-slate-800 opacity-80 max-h-36">
+        <ul className="flex justify-around mb-0 py-3.5">
           {menuUrlList.map((item, index) => {
             return (
-              <li key={index} style={{ width: "90px", height: "900px" }}>
+              <li key={index} className="w-20">
                 <img
                   src={item.backurl}
                   alt="메뉴 이미지"
                   onClick={() => handleMenu(item.menutext)}
                 />
-                <p
-                  style={{
-                    color: "#fff",
-                    textAlign: "center",
-                    marginTop: "0px",
-                  }}
-                >
-                  {item.menutext}
-                </p>
+                <p className="text-center mt-0 text-white">{item.menutext}</p>
               </li>
             );
           })}

@@ -222,10 +222,10 @@ const Write = () => {
 
   const handleUpDateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // if (!txtValue) {
-    //   window.confirm("내용을 작성 해주세요");
-    //   return;
-    // }
+    if (!txtValue) {
+      window.confirm("내용을 작성 해주세요");
+      return;
+    }
 
     try {
       const eat = btnBtSelects.find((item) => item === "밥") || "미완";
@@ -310,10 +310,8 @@ const Write = () => {
   }, [selectDBId]);
 
   return (
-    <section
-      style={{ backgroundColor: "#FFEAD9", width: "100%", height: "100%" }}
-    >
-      <h3 style={{ textAlign: "center", padding: "40px" }}>2024.03.15</h3>
+    <section className="container mx-auto bg-[#FFEAD9] h-screen">
+      <h3 className="text-center pt-12">2024.03.15</h3>
       <h5>다시 선택 해주세요</h5>
       {selectDBId != null ? (
         <form onSubmit={handleUpDateSubmit}>

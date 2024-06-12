@@ -64,10 +64,8 @@ const View = () => {
 
   console.log(fetchDb);
   return (
-    <section
-      style={{ backgroundColor: "#FFEAD9", width: "100%", height: "100%" }}
-    >
-      <h3 style={{ textAlign: "center", padding: "40px" }}>2024.03.15</h3>
+    <section className="container mx-auto bg-[#FFEAD9] h-screen">
+      <h3 className="text-center">2024.03.15</h3>
       <div>
         <h3>완료</h3>
         <div>
