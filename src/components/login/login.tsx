@@ -2,11 +2,9 @@ import { useState, useEffect } from "react";
 import { useAppDispatch } from "../../redux/reduxStore";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../store";
-import {
-  userLogin,
-  userLogout,
-} from "../../redux/slices/loginSlice/userLoginSlice";
+import { userLogin } from "../../redux/slices/loginSlice/userLoginSlice";
 import "../../style/style.css";
+import Logout from "./logoutHeader";
 
 const LoginPage = () => {
   const [imageUrlList, setImageUrlList] = useState<string>("");
@@ -66,12 +64,6 @@ const LoginPage = () => {
     setImageUrlList(data.publicUrl);
   };
 
-  const kakakoSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    console.log(error);
-    dispatch(userLogout(userUid));
-  };
-
   useEffect(() => {
     userUidFunc();
     dogSelectFunc();
@@ -82,6 +74,8 @@ const LoginPage = () => {
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
+        {userUid ? <Logout/>:<></> }
+       
         <div className="flex flex-col justify-center items-center min-h-screen">
           <div className="flex flex-col items-center gap-y-20">
             <h3 className="text-3xl text-center py-3">
@@ -89,19 +83,17 @@ const LoginPage = () => {
               <br />
               멈멈이를 기록 해줘!
             </h3>
-            {userUid}
             <div className="max-w-40 mx-auto  ">
               <img src={imageUrlList} alt="강아지 캐릭터" />
             </div>
             {userUid ? (
               <div>
                 <button
-                  className="sm:bg-blue-300 md:w-32"
+                  className="bg-white w-72 h-10 rounded-lg"
                   onClick={dogSelectHandle}
                 >
-                  강아지 선택
+                  강아지 선택 하러가기
                 </button>
-                <button onClick={kakakoSignOut}>로그아웃</button>
               </div>
             ) : (
               <div className="w-72 mx-auto">
