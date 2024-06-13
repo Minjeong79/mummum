@@ -66,17 +66,15 @@ const Write = () => {
   const [txtValue, setTextValue] = useState("");
   const [fetchDb, setFetchDb] = useState<DataType[]>([]);
 
-  ////
   const [updatedWalk, setUpdatedWalk] = useState("");
   const [updatedWalkImg, setUpdatedWalkImg] = useState("");
   const [updatedBasicW, setUpdatedBasicW] = useState("");
-
   const [changeValue, setChangeValue] = useState(false);
   const [changeEValue, setChangeEValue] = useState(false);
   const [changePValue, setChangePValue] = useState(false);
   const [changeHValue, setChangeHValue] = useState(false);
   const [changeBValue, setChangeBValue] = useState(false);
-  /////
+
   const imgTopListHandle = async () => {
     const { data, error } = await supabase.from("diarywriteimgtop").select();
     if (data) {
@@ -153,7 +151,7 @@ const Write = () => {
     }
   };
 
-  //처음 데이터 임력 시
+  //처음 데이터 입력 시
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!txtValue) {
@@ -220,6 +218,7 @@ const Write = () => {
     }
   };
 
+  //데이터 수정
   const handleUpDateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!txtValue) {
@@ -310,170 +309,147 @@ const Write = () => {
   }, [selectDBId]);
 
   return (
-    <section className="container mx-auto bg-[#FFEAD9] h-screen">
-      <h3 className="text-center pt-12">2024.03.15</h3>
-      <h5>다시 선택 해주세요</h5>
-      {selectDBId != null ? (
-        <form onSubmit={handleUpDateSubmit}>
-          {fetchDb.map((item, idx) =>
-            item.id === selectDBId ? (
-              <div key={idx}>
-                <div>
-                  <div>
-                    <h3>산책 수정수정</h3>
+    <section className="bg-[#E9CEB9]">
+      <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
+        <h3 className="text-center pt-12">2024.03.15</h3>
+        {selectDBId != null ? (
+          <form onSubmit={handleUpDateSubmit} className="p-10">
+            {fetchDb.map((item, idx) =>
+              item.id === selectDBId ? (
+                <div key={idx}>
+                  <div className="flex flex-col gap-y-8">
                     <div>
-                      <ul style={{ display: "flex", height: "150px" }}>
-                        {imgList.map((item, index) => {
+                      <h3 className="text-lg">산책</h3>
+                      <div>
+                        <ul>
+                          {imgList.map((item, index) => {
+                            return (
+                              <li key={index} className="w-16">
+                                <button
+                                  className="mt-2.5"
+                                  type="button"
+                                  onClick={() => handleImageClick(item.name)}
+                                >
+                                  <img src={item.imgurl} alt="이미지" />
+                                </button>
+                                <p className="mt-2.5 text-sm">{item.name}</p>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg">추가 선택</h3>
+                      <ul className="flex flex-row gap-x-4">
+                        {imgBmList.map((item, index) => {
                           return (
-                            <li
-                              key={index}
-                              style={{
-                                width: "80px",
-                                height: "80px",
-                                padding: "0px 10px",
-                              }}
-                            >
+                            <li key={index} className="w-16 text-center">
                               <button
+                                className="mt-2.5"
                                 type="button"
-                                onClick={() => handleImageClick(item.name)}
+                                onClick={() => hadleIageClicks(item.name)}
                               >
                                 <img src={item.imgurl} alt="이미지" />
                               </button>
-                              <p>{item.name}</p>
+                              <p className="mt-2.5 text-sm">{item.name}</p>
                             </li>
                           );
                         })}
                       </ul>
                     </div>
+                    <textarea
+                      className="resize-none border border-[#F5BB8C] w-full h-40 p-2.5 bg-transparent outline-none rounded-md"
+                      value={item.content}
+                      onChange={(e) => setTextValue(e.target.value)}
+                    ></textarea>
+                    <div className="flex justify-center gap-3">
+                      <button
+                        type="submit"
+                        className="bg-[#FD943F] text-white rounded-lg px-4 py-2"
+                      >
+                        수정
+                      </button>
+                      <button
+                        onClick={handleCancel}
+                        className="bg-[#D9D9D9] rounded-lg px-4 py-2"
+                      >
+                        취소
+                      </button>
+                    </div>
                   </div>
-                  <div style={{ marginTop: "50px" }}>
-                    <h3>추가 선택</h3>
-                    <ul style={{ display: "flex", height: "150px" }}>
-                      {imgBmList.map((item, index) => {
-                        return (
-                          <li
-                            key={index}
-                            style={{
-                              width: "80px",
-                              height: "80px",
-                              padding: "0px 10px",
-                            }}
-                          >
-                            <button
-                              type="button"
-                              onClick={() => hadleIageClicks(item.name)}
-                            >
-                              <img src={item.imgurl} alt="이미지" />
-                            </button>
-                            <p style={{ textAlign: "center" }}>{item.name}</p>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                  <textarea
-                    style={{
-                      resize: "none",
-                      border: "1px solid #F5BB8C",
-                      width: "100%",
-                      height: "10em",
-                      padding: "10px",
-                      margin: "20px",
-                      background: "none",
-                      outline: "none",
-                      borderRadius: "8px",
-                    }}
-                    value={item.content}
-                    onChange={(e) => setTextValue(e.target.value)}
-                  ></textarea>
                 </div>
-                <div style={{ display: "flex" }}>
-                  <button type="submit">수정</button>
-                  <button onClick={handleCancel}>취소</button>
+              ) : (
+                <></>
+              )
+            )}
+          </form>
+        ) : (
+          <form onSubmit={handleSubmit} className="p-10">
+            <div className="flex flex-col gap-y-8">
+              <div>
+                <h3 className="text-lg">산책</h3>
+                <div>
+                  <ul>
+                    {imgList.map((item, index) => {
+                      return (
+                        <li key={index} className="w-16">
+                          <button
+                            className="mt-2.5"
+                            type="button"
+                            onClick={() => handleImageClick(item.name)}
+                          >
+                            <img src={item.imgurl} alt="이미지" />
+                          </button>
+                          <p className="mt-2.5 text-sm">{item.name}</p>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </div>
-            ) : (
-              <></>
-            )
-          )}
-        </form>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <div>
-              <h3>산책</h3>
               <div>
-                <ul style={{ display: "flex", height: "150px" }}>
-                  {imgList.map((item, index) => {
+                <h3 className="text-lg">추가 선택</h3>
+                <ul className="flex flex-row gap-x-4">
+                  {imgBmList.map((item, index) => {
                     return (
-                      <li
-                        key={index}
-                        style={{
-                          width: "80px",
-                          height: "80px",
-                          padding: "0px 10px",
-                        }}
-                      >
+                      <li key={index} className="w-16 text-center">
                         <button
+                          className="mt-2.5"
                           type="button"
-                          onClick={() => handleImageClick(item.name)}
+                          onClick={() => hadleIageClicks(item.name)}
                         >
                           <img src={item.imgurl} alt="이미지" />
                         </button>
-                        <p>{item.name}</p>
+                        <p className="mt-2.5 text-sm">{item.name}</p>
                       </li>
                     );
                   })}
                 </ul>
               </div>
+              <textarea
+                className="resize-none border border-[#F5BB8C] w-full h-40 p-2.5 bg-transparent outline-none rounded-md"
+                value={txtValue}
+                onChange={(e) => setTextValue(e.target.value)}
+              ></textarea>
+              <div className="flex justify-center  gap-3">
+                <button
+                  type="submit"
+                  className="bg-[#FD943F] text-white rounded-lg px-4 py-2"
+                >
+                  등록
+                </button>
+                <button
+                  onClick={handleCancel}
+                  className="bg-[#D9D9D9] rounded-lg px-4 py-2"
+                >
+                  취소
+                </button>
+              </div>
             </div>
-            <div style={{ marginTop: "50px" }}>
-              <h3>추가 선택</h3>
-              <ul style={{ display: "flex", height: "150px" }}>
-                {imgBmList.map((item, index) => {
-                  return (
-                    <li
-                      key={index}
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        padding: "0px 10px",
-                      }}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => hadleIageClicks(item.name)}
-                      >
-                        <img src={item.imgurl} alt="이미지" />
-                      </button>
-                      <p style={{ textAlign: "center" }}>{item.name}</p>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-            <textarea
-              style={{
-                resize: "none",
-                border: "1px solid #F5BB8C",
-                width: "100%",
-                height: "10em",
-                padding: "10px",
-                margin: "20px",
-                background: "none",
-                outline: "none",
-                borderRadius: "8px",
-              }}
-              value={txtValue}
-              onChange={(e) => setTextValue(e.target.value)}
-            ></textarea>
-          </div>
-          <div style={{ display: "flex" }}>
-            <button type="submit">등록</button>
-            <button onClick={handleCancel}>취소</button>
-          </div>
-        </form>
-      )}
+          </form>
+        )}
+      </section>
     </section>
   );
 };

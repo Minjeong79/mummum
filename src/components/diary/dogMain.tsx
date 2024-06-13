@@ -44,17 +44,19 @@ const DogMain = () => {
   }, []);
 
   return (
-    <section
-      className="max-w-lg mx-auto h-screen"
-      style={{ backgroundImage: `url(${backBg})` }}
-    >
-      <div className="flex flex-col justify-between items-center min-h-screen">
-        <Weather />
-        <div className="">
-          <img src={selectDog} alt="강아지" />
+    <section className="bg-[#E9CEB9]">
+      <section
+        className="max-w-lg mx-auto h-screen"
+        style={{ backgroundImage: `url(${backBg})` }}
+      >
+        <div className="flex flex-col justify-between items-center min-h-screen">
+          <Weather />
+          <div className="">
+            <img src={selectDog} alt="강아지" />
+          </div>
+          <MenuFooter />
         </div>
-        <MenuFooter />
-      </div>
+      </section>
     </section>
   );
 };

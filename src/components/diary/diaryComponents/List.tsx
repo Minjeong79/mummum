@@ -56,83 +56,89 @@ const List = () => {
   // console.log(imgList);
 
   return (
-    <section  className="max-w-lg mx-auto bg-[#FFEAD9] h-screen relative">
-      <section className="">
-        <div className="px-10 flex flex-col gap-y-7 pt-12">
-          <div className="flex justify-between">
-            <h3 className="text-sm text-[#555]">멈멈이 기록</h3>
-            <button className="bg-white p-2.5 rounded-lg" onClick={handleWrite}>작성</button>
+    <section className="bg-[#E9CEB9]">
+      <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen relative">
+        <div className="max-w-lg">
+          <div className="px-10 flex flex-col gap-y-7 pt-12">
+            <div className="flex justify-between">
+              <h3 className="text-sm text-[#555]">멈멈이 기록</h3>
+              <button
+                className="bg-white p-2.5 rounded-lg"
+                onClick={handleWrite}
+              >
+                작성
+              </button>
+            </div>
+            <div>
+              <ul className="li-plus-li">
+                {fetchDb.map((item, index) =>
+                  item.uuid === userUid ? (
+                    <li
+                      key={index}
+                      className="bg-white w-full p-5 cursor-pointer rounded-lg h-16 flex justify-between items-center"
+                      onClick={() => handlePage(item.id)}
+                    >
+                      <div>{item.content}</div>
+                      <div key={index} className="flex">
+                        <div>
+                          {item.walk === "산책 완료" ? (
+                            <div className="w-10">
+                              <img src={item.walkimg} />
+                            </div>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                        <div>
+                          {item.eat === "밥" ? (
+                            <div className="w-10">
+                              <img src={item.eatimg} />
+                            </div>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                        <div>
+                          {item.pill === "약" ? (
+                            <div className="w-10">
+                              <img src={item.pillimg} />
+                            </div>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                        <div>
+                          {item.hospital === "병원" ? (
+                            <div className="w-10">
+                              <img src={item.hospitalimg} />
+                            </div>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                        <div>
+                          {item.beauty === "미용" ? (
+                            <div className="w-10">
+                              <img src={item.beautyimg} />
+                            </div>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                      </div>
+                    </li>
+                  ) : (
+                    <li key={index}></li>
+                  )
+                )}
+              </ul>
+            </div>
           </div>
-          <div>
-            <ul className="li-plus-li">
-              {fetchDb.map((item, index) =>
-                item.uuid === userUid ? (
-                  <li
-                    key={index}
-                    className="bg-white w-full p-5 cursor-pointer rounded-lg h-16 flex justify-between items-center"
-                    onClick={() => handlePage(item.id)}
-                  >
-                    <div>{item.content}</div>
-                    <div key={index} className="flex">
-                      <div>
-                        {item.walk === "산책 완료" ? (
-                          <div className="w-10">
-                            <img src={item.walkimg} />
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                      <div>
-                        {item.eat === "밥" ? (
-                          <div className="w-10">
-                            <img src={item.eatimg} />
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                      <div>
-                        {item.pill === "약" ? (
-                          <div className="w-10">
-                            <img src={item.pillimg} />
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                      <div>
-                        {item.hospital === "병원" ? (
-                          <div className="w-10">
-                            <img src={item.hospitalimg} />
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                      <div>
-                        {item.beauty === "미용" ? (
-                          <div className="w-10">
-                            <img src={item.beautyimg} />
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                    </div>
-                  </li>
-                ) : (
-                  <li key={index}></li>
-                )
-              )}
-            </ul>
+          <div className="absolute bottom-0 w-full">
+            <MenuFooter />
           </div>
         </div>
-       
       </section>
-      <div className="absolute bottom-0 w-full">
-      <MenuFooter />
-      </div>
     </section>
   );
 };

@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/reduxStore";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../store";
 import addDogSelect from "../../redux/thunks/dogthunk/addDogThunk";
+import Logout from "../login/logoutHeader";
 
 const DogSelect = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
@@ -41,6 +42,7 @@ const DogSelect = () => {
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
+      {userUid ? <Logout/>:<></> }
         <div className="flex flex-col justify-center items-center min-h-screen px-10">
           <div className="flex flex-col items-center gap-y-36">
             <h3 className="text-3xl text-center py-3">
@@ -51,7 +53,7 @@ const DogSelect = () => {
             <ul className="flex flex-row justify-center items-center gap-x-9 mt-5">
               {imageUrlList.map((item, index) => {
                 return (
-                  <li key={index} className="max-w-40">
+                  <li key={index} className="max-w-32">
                     <button id="" onClick={() => imgClickhandle(item)}>
                       <img src={item} alt="강아지이미지" />
                     </button>
