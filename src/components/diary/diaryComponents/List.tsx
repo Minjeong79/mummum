@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { userSelectId } from "../../../redux/slices/user/userWriteSlice";
 import MenuFooter from "../footer";
 import supabase from "../../../store";
-
+import Logout from "../../login/logoutHeader";
 interface DataType {
   id: number;
   uuid: string;
@@ -58,6 +58,13 @@ const List = () => {
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen relative">
+        {userUid ? (
+          <section className="pt-2 px-10">
+            <Logout />
+          </section>
+        ) : (
+          <section className="h-11"></section>
+        )}
         <div className="max-w-lg">
           <div className="px-10 flex flex-col gap-y-7 pt-12">
             <div className="flex justify-between">
