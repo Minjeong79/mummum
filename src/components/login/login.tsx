@@ -8,7 +8,9 @@ import Logout from "./logoutHeader";
 
 const LoginPage = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
-
+  const userUids = useAppSelector((state) => state.userLogin.userIds);
+  console.log(userUids);
+  
   const [imageUrlList, setImageUrlList] = useState<string>("");
   const [userid, setUserId] = useState<string>("");
 
@@ -51,10 +53,10 @@ const LoginPage = () => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
+
     if (user) {
       setUserId(user.id);
       dispatch(userLogin(user.id));
-      console.log("사용자 정보:", user.id);
     }
   };
 
@@ -74,7 +76,7 @@ const LoginPage = () => {
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
-      {userUid ? (
+        {userUid ? (
           <section className="pt-2 px-10">
             <Logout />
           </section>
