@@ -83,7 +83,6 @@ const Weather = () => {
         },
       });
       dispatch(mainDust(response.data.response.body.items));
-      // dispatch(mainDust(response.data));
       handleComparison();
     } catch (error) {
       console.log(error);
@@ -107,7 +106,6 @@ const Weather = () => {
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
   };
 
-  console.log(addressName);
   const handleComparison = () => {
     dustList.map((item: CityDataList) => {
       if (item.cityName === addressName) {

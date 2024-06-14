@@ -9,10 +9,10 @@ import Logout from "./logoutHeader";
 const LoginPage = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
   const userUids = useAppSelector((state) => state.userLogin.userIds);
-  console.log(userUids);
   
+
   const [imageUrlList, setImageUrlList] = useState<string>("");
-  const [userid, setUserId] = useState<string>("");
+  // const [userid, setUserId] = useState<string>("");
 
   const dispatch = useAppDispatch();
   const nav = useNavigate();
@@ -30,6 +30,7 @@ const LoginPage = () => {
     } catch (error) {
       console.error("카카오 로그인 중 오류 발생:", error);
     }
+    
   }
 
   // async function google() {
@@ -53,11 +54,16 @@ const LoginPage = () => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-
-    if (user) {
-      setUserId(user.id);
-      dispatch(userLogin(user.id));
-    }
+    userUids.map((item)=> {
+      if (user) {
+        dispatch(userLogin(user.id));
+        if(user.id === item){
+          nav(`/dogMain`);
+        }else{
+          return;
+        }
+      }
+    });
   };
 
   const dogSelectFunc = async () => {
@@ -72,7 +78,6 @@ const LoginPage = () => {
     userUidFunc();
     dogSelectFunc();
   }, []);
-
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
@@ -93,7 +98,7 @@ const LoginPage = () => {
             <div className="max-w-40 mx-auto  ">
               <img src={imageUrlList} alt="강아지 캐릭터" />
             </div>
-            {userid ? (
+            {userUid ? (
               <div>
                 <button
                   className="bg-white w-72 h-10 rounded-lg"

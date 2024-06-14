@@ -46,7 +46,7 @@ const DogMain = () => {
   return (
     <section className="bg-[#E9CEB9]">
       <section
-        className="max-w-lg mx-auto h-screen"
+        className="max-w-lg mx-auto h-screen bg-cover"
         style={{ backgroundImage: `url(${backBg})` }}
       >
        
