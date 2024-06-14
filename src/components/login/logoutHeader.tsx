@@ -9,6 +9,7 @@ const Logout = () => {
     if (popup) {
       const { error } = await supabase.auth.signOut();
       console.log(error);
+      localStorage.clear();
       dispatch(userLogout(""));
     } else {
       return;

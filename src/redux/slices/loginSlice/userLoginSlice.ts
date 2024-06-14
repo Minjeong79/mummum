@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+
+interface IdType{
+  userId:string;
+  userIds:string[];
+}
+const initialState:IdType = {
   userId: "",
+  userIds:[]
 };
 
 const userLoginSlice = createSlice({
@@ -11,6 +17,7 @@ const userLoginSlice = createSlice({
     userLogin: (state, action) => {
       const user = action.payload;
       state.userId = user;
+      state.userIds = [...user, user];
     },
     userLogout: (state, action) => {
       console.log(state, action);
