@@ -6,13 +6,17 @@ import { userLogin } from "../../redux/slices/loginSlice/userLoginSlice";
 import "../../style/style.css";
 import Logout from "./logoutHeader";
 
+
+interface UidType{
+uuid:string;
+}
+
 const LoginPage = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
-  const userUids = useAppSelector((state) => state.userLogin.userIds);
-  
+  // const userUids = useAppSelector((state) => state.userLogin.userIds);
 
   const [imageUrlList, setImageUrlList] = useState<string>("");
-  // const [userid, setUserId] = useState<string>("");
+  const [useridDB, setUserIdDB] = useState<UidType[]>([]);
 
   const dispatch = useAppDispatch();
   const nav = useNavigate();
@@ -30,7 +34,6 @@ const LoginPage = () => {
     } catch (error) {
       console.error("카카오 로그인 중 오류 발생:", error);
     }
-    
   }
 
   // async function google() {
@@ -54,12 +57,19 @@ const LoginPage = () => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    userUids.map((item)=> {
+
+    let { data, error } = await supabase.from("userdb_0").select("uuid");
+    if (data) {
+      setUserIdDB(data);
+    } else {
+      console.log(error);
+    }
+    useridDB.map((item) => {
       if (user) {
         dispatch(userLogin(user.id));
-        if(user.id === item){
+        if (user.id === item.uuid) {
           nav(`/dogMain`);
-        }else{
+        } else {
           return;
         }
       }
@@ -78,6 +88,7 @@ const LoginPage = () => {
     userUidFunc();
     dogSelectFunc();
   }, []);
+
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
