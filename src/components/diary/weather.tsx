@@ -107,6 +107,7 @@ const Weather = () => {
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
   };
 
+  console.log(addressName);
   const handleComparison = () => {
     dustList.map((item: CityDataList) => {
       if (item.cityName === addressName) {
@@ -132,9 +133,10 @@ const Weather = () => {
 
   console.log(dustList);
   return (
-    <section className="mt-9">
-      <div className="flex flex-col justify-evenly w-60 h-36 bg-[#222] opacity-80 text-white rounded-[14px] ">
+    <section className="">
+      <div className="flex flex-col justify-evenly w-60 h-40 bg-[#222] opacity-80 text-white rounded-[14px] ">
         <h3 className="text-xl text-center m-0">{myDogName}</h3>
+        <h3 className="text-center m-0 ">{addressName}</h3>
         <div className="flex justify-around">
           <div>미세먼지</div>
 

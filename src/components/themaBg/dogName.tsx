@@ -24,7 +24,13 @@ const DogName = () => {
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
-      {userUid ? <Logout/>:<></> }
+      {userUid ? (
+          <section className="pt-2 px-10">
+            <Logout />
+          </section>
+        ) : (
+          <section className="h-11"></section>
+        )}
         <div className="flex flex-col justify-center items-center min-h-screen px-10">
           <div className="flex flex-col items-center gap-y-36">
             <h3 className="text-3xl text-center py-3">

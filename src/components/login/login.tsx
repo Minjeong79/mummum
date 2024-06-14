@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch } from "../../redux/reduxStore";
+import { useAppDispatch, useAppSelector } from "../../redux/reduxStore";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../store";
 import { userLogin } from "../../redux/slices/loginSlice/userLoginSlice";
@@ -7,8 +7,10 @@ import "../../style/style.css";
 import Logout from "./logoutHeader";
 
 const LoginPage = () => {
+  const userUid = useAppSelector((state) => state.userLogin.userId);
+
   const [imageUrlList, setImageUrlList] = useState<string>("");
-  const [userUid, setUserUid] = useState<string>("");
+  const [userid, setUserId] = useState<string>("");
 
   const dispatch = useAppDispatch();
   const nav = useNavigate();
@@ -50,7 +52,7 @@ const LoginPage = () => {
       data: { user },
     } = await supabase.auth.getUser();
     if (user) {
-      setUserUid(user.id);
+      setUserId(user.id);
       dispatch(userLogin(user.id));
       console.log("사용자 정보:", user.id);
     }
@@ -68,15 +70,18 @@ const LoginPage = () => {
     userUidFunc();
     dogSelectFunc();
   }, []);
-  // useEffect(() => {
-  //   kakakoSignOut();
-  // }, []);
+
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
-        {userUid ? <Logout/>:<></> }
-       
-        <div className="flex flex-col justify-center items-center min-h-screen">
+      {userUid ? (
+          <section className="pt-2 px-10">
+            <Logout />
+          </section>
+        ) : (
+          <section className="h-11"></section>
+        )}
+        <div className="flex flex-col justify-center items-center h-5/6">
           <div className="flex flex-col items-center gap-y-20">
             <h3 className="text-3xl text-center py-3">
               멈멈이랑 놀아줘!
@@ -86,7 +91,7 @@ const LoginPage = () => {
             <div className="max-w-40 mx-auto  ">
               <img src={imageUrlList} alt="강아지 캐릭터" />
             </div>
-            {userUid ? (
+            {userid ? (
               <div>
                 <button
                   className="bg-white w-72 h-10 rounded-lg"

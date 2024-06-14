@@ -30,11 +30,8 @@ const MenuFooter = () => {
       case "산책":
         nav(`/mapPage`);
         break;
-      case "커뮤":
-        nav(`/communityList`);
-        break;
-      case "설정":
-        nav(`/communityList`);
+      case "메인":
+        nav(`/dogMain`);
         break;
       default:
         console.log("완료");
