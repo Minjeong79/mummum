@@ -1,0 +1,22 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+body {
+  font-size: 16px;
+}
+ul,
+ol {
+    list-style: none;
+    padding: 0px;
+}
+
+img {
+    width: 100%;
+}
+
+@layer utilities {
+    .li-plus-li > li + li {
+      margin-top: 10px;
+    }
+  }

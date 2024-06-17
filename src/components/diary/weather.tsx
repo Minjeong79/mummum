@@ -45,13 +45,18 @@ interface Address {
 interface ResultItem {
   address: Address;
 }
+interface DogNameType {
+  uuid: string;
+  dogname: string;
+}
 
 const Weather = () => {
-  const dispatch = useAppDispatch();
-
+  const userUid = useAppSelector((state) => state.userLogin.userId);
   const dustList = useAppSelector((state) => state.mainDust.response);
   const addressName = useAppSelector((state) => state.mainCity.cName);
-  const [myDogName, setMyDogName] = useState("");
+  const [myDogName, setMyDogName] = useState<DogNameType[]>([]);
+
+  const dispatch = useAppDispatch();
 
   //미세먼지
   const [checkData, setCheckData] = useState<string[]>([]);
@@ -59,38 +64,35 @@ const Weather = () => {
   const URL =
     "https://apis.data.go.kr/B552584/ArpltnStatsSvc/getCtprvnMesureSidoLIst";
   const SERVICE_KEY =
-    "Y1TEjuVO5hEMU0yG1YY7J9dJvRQbv%2B87%2FsewOQKgQa9JnI2l9Xyj%2FZm5gnvsy1Hu%2FBVCW3WofoTKePCW1ZTrkA%3D%3D";
+    "Y1TEjuVO5hEMU0yG1YY7J9dJvRQbv+87/sewOQKgQa9JnI2l9Xyj/Zm5gnvsy1Hu/BVCW3WofoTKePCW1ZTrkA==";
 
   const handleDogName = async () => {
-    const { data, error } = await supabase.from("dognamedb").select("dogname");
+    const { data, error } = await supabase.from("dognamedb").select("*");
     if (data) {
-      setMyDogName(data[0].dogname);
+      setMyDogName(data);
     } else {
       console.log(error);
     }
-    // console.log(myDogName);
   };
-
   const fetchData = async () => {
     try {
       const response = await axios.get(URL, {
         params: {
           serviceKey: SERVICE_KEY,
           returnType: "json",
-          // numOfRows: 25,
-          // pageNo: 1,
+          numOfRows: 25,
+          pageNo: 1,
           sidoName: "서울",
           searchCondition: "HOUR",
         },
       });
       dispatch(mainDust(response.data.response.body.items));
-      // dispatch(mainDust(response.data));
-      console.log(response.data.response);
+      handleComparison();
     } catch (error) {
       console.log(error);
     }
   };
- 
+
   const geolocation = useGeolocation();
   const latitude = geolocation.latitude;
   const longitude = geolocation.longitude;
@@ -110,62 +112,45 @@ const Weather = () => {
   };
 
   const handleComparison = () => {
-    dustList.map((item: CityDataList) =>
-    {
+    dustList.map((item: CityDataList) => {
       if (item.cityName === addressName) {
         const list = [item.cityName, item.pm10Value, item.pm25Value];
         setCheckData(list);
       }
-   }
-  );
+    });
   };
 
   useEffect(() => {
-    const fetchData_list = async () => {
-      await fetchData();
-      await handleComparison();
-    };
-    fetchData_list();
+   
     handleDogName();
   }, []);
 
   useEffect(() => {
+    const fetchData_list = async () => {
+      await fetchData();
+    };
+    fetchData_list();
     if (latitude && longitude) {
       handleGeocoder();
     }
   }, [latitude, longitude]);
 
-<<<<<<< HEAD
-=======
-  console.log(typeof Object.values(dustList)[1]);
->>>>>>> 70ae09b8213927af8935dff21ae1e6a9b161f8f6
   return (
-    <section>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          width: "250px",
-          height: "150px",
-          background: "#222",
-          opacity: "80%",
-          color: "#fff",
-          borderRadius: "14px",
-          marginTop: "-20px",
-        }}
-      >
-        <h3
-          style={{
-            fontSize: "20px",
-            fontWeight: "normal",
-            textAlign: "center",
-            margin: "0px",
-          }}
-        >
-          {myDogName}
-        </h3>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
+    <section className="">
+      <div className="flex flex-col justify-evenly w-60 h-40 bg-[#222] opacity-80 text-white rounded-[14px] ">
+        <>
+          {myDogName.map((item) =>
+            item.uuid === userUid ? (
+              <h3 key={item.uuid} className="text-xl text-center m-0">
+                {item.dogname}
+              </h3>
+            ) : (
+              <div className="hidden"></div>
+            )
+          )}
+        </>
+        <h3 className="text-center m-0 ">{addressName}</h3>
+        <div className="flex justify-around">
           <div>미세먼지</div>
 
           <div>
@@ -178,7 +163,7 @@ const Weather = () => {
               : "매우나쁨"}
           </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div className="flex justify-around">
           <div>초 미세먼지</div>
           <div>
             {Number(checkData[2]) <= 15

@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+
+interface IdType{
+  userId:string;
+}
+const initialState:IdType = {
   userId: "",
 };
 
@@ -13,8 +17,8 @@ const userLoginSlice = createSlice({
       state.userId = user;
     },
     userLogout: (state, action) => {
-      console.log(state, action);
-      return initialState;
+     const userOut = action.payload;
+     state.userId=userOut;
     },
   },
 });

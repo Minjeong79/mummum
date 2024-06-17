@@ -43,11 +43,10 @@ const View = () => {
   const hadleEdit = (selectDBId: number) => {
     nav(`/write/${selectDBId}`);
   };
-  const hadleCancle = (selectDBId: number) => {
-    nav(`/view/${selectDBId}`);
+  const hadleCancle = () => {
+    nav(`/list`);
   };
-  console.log(selectDBId);
-
+ 
   const hadleDelete = async (selectDBId: number) => {
     console.log("click");
     window.confirm("삭제 하시겠습니까?");
@@ -62,42 +61,110 @@ const View = () => {
     handleDb();
   }, []);
 
-  console.log(fetchDb);
   return (
-    <section
-      style={{ backgroundColor: "#FFEAD9", width: "100%", height: "100%" }}
-    >
-      <h3 style={{ textAlign: "center", padding: "40px" }}>2024.03.15</h3>
-      <div>
-        <h3>완료</h3>
-        <div>
-          <ul style={{ display: "flex", height: "150px" }}>
-            {fetchDb.map((item, index) =>
-              item.id === selectDBId ? (
-                <li key={index}>
-                  <h3>{item.date}</h3>
+    <section className="bg-[#E9CEB9]">
+      <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
+        <div className="p-10 flex flex-col gap-6">
+          <div className=" flex justify-between">
+            <h3 className="text-lg">하루 기록</h3>
+            <button
+              className="bg-[#D9D9D9] rounded-lg px-4 py-2"
+              onClick={() => hadleDelete(selectDBId)}
+            >
+              삭제
+            </button>
+          </div>
 
-                  <div>
-                    <img src={item.basicW} />
-                    <img src={item.basicE} />
-                    <img src={item.basicP} />
-                    <img src={item.basicH} />
-                    <img src={item.basicB} />
-                  </div>
-                  <div>{item.content}</div>
-                </li>
-              ) : (
-                <li key={index}></li>
-              )
-            )}
-          </ul>
+          <div>
+            <ul>
+              {fetchDb.map((item, index) =>
+                item.id === selectDBId ? (
+                  <li key={index} className=" flex flex-col gap-6">
+                    <h3 className="text-center pt-12 text-stone-700">
+                      {item.date}
+                    </h3>
+                    <div className="mt-2.5 flex gap-3">
+                      {item.basicW ? (
+                        <div className="w-16">
+                          <img src={item.basicW} />
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.walk}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="hidden"></div>
+                      )}
+
+                      {item.basicE ? (
+                        <div className="w-16">
+                          <img src={item.basicE} />
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.eat}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="hidden"></div>
+                      )}
+
+                      {item.basicP ? (
+                        <div className="w-16">
+                          <img src={item.basicP} />
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.pill}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="hidden"></div>
+                      )}
+
+                      {item.basicH ? (
+                        <div className="w-16">
+                          <img src={item.basicH} />
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.hospital}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="hidden"></div>
+                      )}
+
+                      {item.basicB ? (
+                        <div className="w-16">
+                          <img src={item.basicB} />
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.beauty}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="hidden"></div>
+                      )}
+                    </div>
+                    <div className="w-full h-40 p-2.5 bg-[#FFDCBF] rounded-md">
+                      {item.content}
+                    </div>
+                  </li>
+                ) : (
+                  <li key={index}></li>
+                )
+              )}
+            </ul>
+          </div>
+          <div className="flex flex-row gap-4 justify-center items-center">
+            <button
+              className="bg-[#FD943F] text-white rounded-lg px-4 py-2"
+              onClick={() => hadleEdit(selectDBId)}
+            >
+              수정
+            </button>
+            <button
+              className="bg-[#D9D9D9] rounded-lg px-4 py-2"
+              onClick={hadleCancle}
+            >
+              취소
+            </button>
+          </div>
         </div>
-        <div>
-          <button onClick={() => hadleDelete(selectDBId)}>삭제</button>
-          <button onClick={() => hadleEdit(selectDBId)}>수정</button>
-          <button onClick={() => hadleCancle(selectDBId)}>취소</button>
-        </div>
-      </div>
+      </section>
     </section>
   );
 };

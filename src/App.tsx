@@ -6,13 +6,9 @@ import DogMain from "./components/diary/dogMain";
 import Write from "./components/diary/diaryComponents/write";
 import View from "./components/diary/diaryComponents/view";
 import List from "./components/diary/diaryComponents/List";
-import CommunityWrite from "./components/community/communityWrite";
-import CommunityView from "./components/community/communityView";
-import CommunityList from "./components/community/communityList";
-import "./App.css";
 import DogName from "./components/themaBg/dogName";
-import WalkPage from "./components/walkPage";
-
+import MapPage from "./components/map/mapPage";
+import './style/style.css'
 function App() {
   // const memoziedDispatches = useMemo(() => {
   //   return {
@@ -32,10 +28,7 @@ function App() {
         <Route path="/write/:id" element={<Write />} />
         <Route path="/view/:id" element={<View />} />
         <Route path="/list" element={<List />} />
-        <Route path="/walkPage" element={<WalkPage/>} />
-        <Route path="/communityWrite" element={<CommunityWrite />} />
-        <Route path="/communityView/:id" element={<CommunityView />} />
-        <Route path="/communityList" element={<CommunityList />} />
+        <Route path="/mapPage" element={<MapPage/>} />
       </Routes>
     </div>
   );
