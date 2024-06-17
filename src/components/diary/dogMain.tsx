@@ -22,6 +22,7 @@ const DogMain = () => {
           setSelectDog(String(obj[0]));
         }
       });
+      console.log(error);
   };
 
   const handleBg = async () => {
