@@ -28,14 +28,14 @@ const MenuFooter = () => {
         nav(`/List`);
         break;
       case "산책":
-        nav(`/List`);
+        nav(`/walkPage`);
         break;
       case "커뮤":
         nav(`/communityList`);
         break;
       case "설정":
         nav(`/communityList`);
-        break;
+        break; 
       default:
         console.log("완료");
     }

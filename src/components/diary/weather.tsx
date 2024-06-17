@@ -85,12 +85,12 @@ const Weather = () => {
       });
       dispatch(mainDust(response.data.response.body.items));
       // dispatch(mainDust(response.data));
-      // setDataUrl(response.data);
+      console.log(response.data.response);
     } catch (error) {
       console.log(error);
     }
   };
-
+ 
   const geolocation = useGeolocation();
   const latitude = geolocation.latitude;
   const longitude = geolocation.longitude;
@@ -110,12 +110,14 @@ const Weather = () => {
   };
 
   const handleComparison = () => {
-    dustList.map((item: CityDataList) => {
+    dustList.map((item: CityDataList) =>
+    {
       if (item.cityName === addressName) {
         const list = [item.cityName, item.pm10Value, item.pm25Value];
         setCheckData(list);
       }
-    });
+   }
+  );
   };
 
   useEffect(() => {
@@ -133,6 +135,10 @@ const Weather = () => {
     }
   }, [latitude, longitude]);
 
+<<<<<<< HEAD
+=======
+  console.log(typeof Object.values(dustList)[1]);
+>>>>>>> 70ae09b8213927af8935dff21ae1e6a9b161f8f6
   return (
     <section>
       <div
