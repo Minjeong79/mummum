@@ -457,7 +457,7 @@ const Write = () => {
                     </div>
                     <textarea
                       className="resize-none border border-[#F5BB8C] w-full h-40 p-2.5 bg-transparent outline-none rounded-md"
-                      value={item.content}
+                      defaultValue={item.content}
                       onChange={(e) => setTextValue(e.target.value)}
                     ></textarea>
                     <div className="flex justify-center gap-3">

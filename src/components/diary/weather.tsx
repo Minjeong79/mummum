@@ -74,7 +74,6 @@ const Weather = () => {
       console.log(error);
     }
   };
-  console.log(myDogName);
   const fetchData = async () => {
     try {
       const response = await axios.get(URL, {
@@ -121,14 +120,15 @@ const Weather = () => {
   };
 
   useEffect(() => {
-    const fetchData_list = async () => {
-      await fetchData();
-    };
-    fetchData_list();
+   
     handleDogName();
   }, []);
 
   useEffect(() => {
+    const fetchData_list = async () => {
+      await fetchData();
+    };
+    fetchData_list();
     if (latitude && longitude) {
       handleGeocoder();
     }
