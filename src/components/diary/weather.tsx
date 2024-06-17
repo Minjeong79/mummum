@@ -45,11 +45,11 @@ interface Address {
 interface ResultItem {
   address: Address;
 }
-
 interface DogNameType {
   uuid: string;
   dogname: string;
 }
+
 const Weather = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
   const dustList = useAppSelector((state) => state.mainDust.response);
@@ -62,7 +62,7 @@ const Weather = () => {
   const [checkData, setCheckData] = useState<string[]>([]);
 
   const URL =
-    "http://apis.data.go.kr/B552584/ArpltnStatsSvc/getCtprvnMesureSidoLIst";
+    "https://apis.data.go.kr/B552584/ArpltnStatsSvc/getCtprvnMesureSidoLIst";
   const SERVICE_KEY =
     "Y1TEjuVO5hEMU0yG1YY7J9dJvRQbv+87/sewOQKgQa9JnI2l9Xyj/Zm5gnvsy1Hu/BVCW3WofoTKePCW1ZTrkA==";
 
@@ -96,6 +96,7 @@ const Weather = () => {
   const geolocation = useGeolocation();
   const latitude = geolocation.latitude;
   const longitude = geolocation.longitude;
+  // const { kakao } = window;
   const geocoder = new kakao.maps.services.Geocoder();
   const coord = new kakao.maps.LatLng(latitude, longitude);
 
@@ -155,9 +156,9 @@ const Weather = () => {
           <div>
             {Number(checkData[1]) <= 30
               ? "좋음"
-              : 31 < Number(checkData[1]) && Number(checkData[1]) <= 80
+              : 31 <= Number(checkData[1]) && Number(checkData[1]) <= 80
               ? "보통"
-              : 81 < Number(checkData[1]) && Number(checkData[1]) <= 150
+              : 81 <= Number(checkData[1]) && Number(checkData[1]) <= 150
               ? "나쁨"
               : "매우나쁨"}
           </div>
@@ -167,9 +168,9 @@ const Weather = () => {
           <div>
             {Number(checkData[2]) <= 15
               ? "좋음"
-              : 16 < Number(checkData[2]) && Number(checkData[1]) <= 35
+              : 16 <= Number(checkData[2]) && Number(checkData[1]) <= 35
               ? "보통"
-              : 36 < Number(checkData[2]) && Number(checkData[1]) <= 75
+              : 36 <= Number(checkData[2]) && Number(checkData[1]) <= 75
               ? "나쁨"
               : "매우나쁨"}
           </div>

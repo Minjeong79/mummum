@@ -25,9 +25,9 @@ const DogSelect = () => {
     }
   };
 
-  const imgClickhandle = async (index: number) => {
-    const dogNum = `dog${index}`
-    await dispatch(addDogSelect({ userUid: userUid, name:dogNum}));
+const imgClickhandle = async (index: number) => {
+    const dogNum = `dog${index}`;
+    await dispatch(addDogSelect({ userUid: userUid, name: dogNum }));
     nav(`/themaSelect`);
   };
 
