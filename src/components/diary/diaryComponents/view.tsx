@@ -43,11 +43,10 @@ const View = () => {
   const hadleEdit = (selectDBId: number) => {
     nav(`/write/${selectDBId}`);
   };
-  const hadleCancle = (selectDBId: number) => {
-    nav(`/view/${selectDBId}`);
+  const hadleCancle = () => {
+    nav(`/list`);
   };
-  console.log(selectDBId);
-
+ 
   const hadleDelete = async (selectDBId: number) => {
     console.log("click");
     window.confirm("삭제 하시겠습니까?");
@@ -62,15 +61,18 @@ const View = () => {
     handleDb();
   }, []);
 
-  console.log(fetchDb);
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
-        <h3 className="text-center pt-12">2024.03.15</h3>
         <div className="p-10 flex flex-col gap-6">
           <div className=" flex justify-between">
             <h3 className="text-lg">하루 기록</h3>
-            <button onClick={() => hadleDelete(selectDBId)}>삭제</button>
+            <button
+              className="bg-[#D9D9D9] rounded-lg px-4 py-2"
+              onClick={() => hadleDelete(selectDBId)}
+            >
+              삭제
+            </button>
           </div>
 
           <div>
@@ -78,68 +80,64 @@ const View = () => {
               {fetchDb.map((item, index) =>
                 item.id === selectDBId ? (
                   <li key={index} className=" flex flex-col gap-6">
-                    <h3>{item.date}</h3>
+                    <h3 className="text-center pt-12 text-stone-700">
+                      {item.date}
+                    </h3>
                     <div className="mt-2.5 flex gap-3">
-                      <div>
-                        {item.basicW ? (
-                          <div className="w-16">
-                            <img src={item.basicW} />
-                            <p className="mt-2.5 text-sm text-center">
-                              {item.walk}
-                            </p>
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                      <div>
-                        {item.basicE ? (
-                          <div className="w-16">
-                            <img src={item.basicE} />
-                            <p className="mt-2.5 text-sm text-center">
-                              {item.eat}
-                            </p>
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                      <div>
-                        {item.basicP ? (
-                          <div className="w-16">
-                            <img src={item.basicP} />
-                            <p className="mt-2.5 text-sm text-center">
-                              {item.pill}
-                            </p>
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                      <div>
-                        {item.basicH ? (
-                          <div className="w-16">
-                            <img src={item.basicH} />
-                            <p className="mt-2.5 text-sm text-center">
-                              {item.hospital}
-                            </p>
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                      <div>
-                        {item.basicB ? (
-                          <div className="w-16">
-                            <img src={item.basicB} />
-                            <p className="mt-2.5 text-sm text-center">
-                              {item.beauty}
-                            </p>
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
+                      {item.basicW ? (
+                        <div className="w-16">
+                          <img src={item.basicW} />
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.walk}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="hidden"></div>
+                      )}
+
+                      {item.basicE ? (
+                        <div className="w-16">
+                          <img src={item.basicE} />
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.eat}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="hidden"></div>
+                      )}
+
+                      {item.basicP ? (
+                        <div className="w-16">
+                          <img src={item.basicP} />
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.pill}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="hidden"></div>
+                      )}
+
+                      {item.basicH ? (
+                        <div className="w-16">
+                          <img src={item.basicH} />
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.hospital}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="hidden"></div>
+                      )}
+
+                      {item.basicB ? (
+                        <div className="w-16">
+                          <img src={item.basicB} />
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.beauty}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="hidden"></div>
+                      )}
                     </div>
                     <div className="w-full h-40 p-2.5 bg-[#FFDCBF] rounded-md">
                       {item.content}
@@ -160,7 +158,7 @@ const View = () => {
             </button>
             <button
               className="bg-[#D9D9D9] rounded-lg px-4 py-2"
-              onClick={() => hadleCancle(selectDBId)}
+              onClick={hadleCancle}
             >
               취소
             </button>
