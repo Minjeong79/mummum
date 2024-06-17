@@ -11,11 +11,18 @@ const DogMain = () => {
   const [backBg, setBackBg] = useState("");
 
   const handleDogSelect = async () => {
-    const { data, error } = await supabase.from("userdb_0").select("dogurl");
-    if (data) {
-      setSelectDog(data[0].dogurl);
-    }
-    console.log(error);
+    const { data, error } = await supabase
+      .from("userdb_0")
+      .select(`uuid,dogimgdb(url)`);
+      
+      data?.map((item): void => {
+        if (userUid === item.uuid) {
+          const obj = Object.values(item.dogimgdb);
+          console.log(obj)
+          setSelectDog(String(obj[0]));
+        }
+      });
+      console.log(error);
   };
 
   const handleBg = async () => {
@@ -49,15 +56,14 @@ const DogMain = () => {
         className="max-w-lg mx-auto h-screen bg-cover"
         style={{ backgroundImage: `url(${backBg})` }}
       >
-       
         <div className="flex flex-col justify-between items-center min-h-screen">
-        {userUid ? (
-          <section className="pt-2 px-10 w-full">
-            <Logout />
-          </section>
-        ) : (
-          <section className="h-11"></section>
-        )}
+          {userUid ? (
+            <section className="pt-2 px-10 w-full">
+              <Logout />
+            </section>
+          ) : (
+            <section className="h-11"></section>
+          )}
           <Weather />
           <div className="">
             <img src={selectDog} alt="강아지" />

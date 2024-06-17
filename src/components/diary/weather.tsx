@@ -45,12 +45,18 @@ interface Address {
 interface ResultItem {
   address: Address;
 }
-const Weather = () => {
-  const dispatch = useAppDispatch();
 
+interface DogNameType {
+  uuid: string;
+  dogname: string;
+}
+const Weather = () => {
+  const userUid = useAppSelector((state) => state.userLogin.userId);
   const dustList = useAppSelector((state) => state.mainDust.response);
   const addressName = useAppSelector((state) => state.mainCity.cName);
-  const [myDogName, setMyDogName] = useState("");
+  const [myDogName, setMyDogName] = useState<DogNameType[]>([]);
+
+  const dispatch = useAppDispatch();
 
   //미세먼지
   const [checkData, setCheckData] = useState<string[]>([]);
@@ -61,15 +67,14 @@ const Weather = () => {
     "Y1TEjuVO5hEMU0yG1YY7J9dJvRQbv+87/sewOQKgQa9JnI2l9Xyj/Zm5gnvsy1Hu/BVCW3WofoTKePCW1ZTrkA==";
 
   const handleDogName = async () => {
-    const { data, error } = await supabase.from("dognamedb").select("dogname");
+    const { data, error } = await supabase.from("dognamedb").select("*");
     if (data) {
-      setMyDogName(data[0].dogname);
+      setMyDogName(data);
     } else {
       console.log(error);
     }
-    // console.log(myDogName);
   };
-
+  console.log(myDogName);
   const fetchData = async () => {
     try {
       const response = await axios.get(URL, {
@@ -129,11 +134,20 @@ const Weather = () => {
     }
   }, [latitude, longitude]);
 
-  console.log(dustList);
   return (
     <section className="">
       <div className="flex flex-col justify-evenly w-60 h-40 bg-[#222] opacity-80 text-white rounded-[14px] ">
-        <h3 className="text-xl text-center m-0">{myDogName}</h3>
+        <>
+          {myDogName.map((item) =>
+            item.uuid === userUid ? (
+              <h3 key={item.uuid} className="text-xl text-center m-0">
+                {item.dogname}
+              </h3>
+            ) : (
+              <div className="hidden"></div>
+            )
+          )}
+        </>
         <h3 className="text-center m-0 ">{addressName}</h3>
         <div className="flex justify-around">
           <div>미세먼지</div>

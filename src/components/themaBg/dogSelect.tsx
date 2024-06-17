@@ -5,33 +5,29 @@ import supabase from "../../store";
 import addDogSelect from "../../redux/thunks/dogthunk/addDogThunk";
 import Logout from "../login/logoutHeader";
 
+interface DogType{
+  name:string;
+  url:string;
+}
 const DogSelect = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
   const dispatch = useAppDispatch();
   const nav = useNavigate();
 
-  const [imageUrlList, setImageUrlList] = useState<string[]>([]);
+  const [imageUrlList, setImageUrlList] = useState<DogType[]>([]);
 
   const imgListHandle = async () => {
-    const { data, error } = await supabase.storage
-      .from("img")
-      .list("dogSelect");
-
-    const url =
-      "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/dogSelect/";
+    let { data, error } = await supabase.from("dogimgdb").select("*");
     if (data) {
-      const imgName = data.map((item) => `${url}${item.name}`);
-      setImageUrlList(imgName);
-    }
-    if (error) {
-      console.error("에러 발생:", error.message);
+      setImageUrlList(data);
     } else {
-      // console.log("파일 목록:", data);
+      console.log(error);
     }
   };
 
-  const imgClickhandle = async (item: string) => {
-    await dispatch(addDogSelect({ userUid: userUid, dogUrl: item }));
+  const imgClickhandle = async (index: number) => {
+    const dogNum = `dog${index}`
+    await dispatch(addDogSelect({ userUid: userUid, name:dogNum}));
     nav(`/themaSelect`);
   };
 
@@ -42,7 +38,7 @@ const DogSelect = () => {
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
-      {userUid ? (
+        {userUid ? (
           <section className="pt-2 px-10">
             <Logout />
           </section>
@@ -60,8 +56,8 @@ const DogSelect = () => {
               {imageUrlList.map((item, index) => {
                 return (
                   <li key={index} className="min-w-16 max-w-24">
-                    <button id="" onClick={() => imgClickhandle(item)}>
-                      <img src={item} alt="강아지이미지" />
+                    <button id="" onClick={() => imgClickhandle(index)}>
+                      <img src={item.url} alt="강아지이미지" />
                     </button>
                   </li>
                 );

@@ -6,18 +6,16 @@ import { userLogin } from "../../redux/slices/loginSlice/userLoginSlice";
 import "../../style/style.css";
 import Logout from "./logoutHeader";
 
-
-interface UidType{
-uuid:string;
+interface UidType {
+  uuid: string;
 }
 
 const LoginPage = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
-  // const userUids = useAppSelector((state) => state.userLogin.userIds);
 
   const [imageUrlList, setImageUrlList] = useState<string>("");
   const [useridDB, setUserIdDB] = useState<UidType[]>([]);
-
+  const [checkLogin, setCheckLogin] = useState(false);
   const dispatch = useAppDispatch();
   const nav = useNavigate();
 
@@ -58,22 +56,27 @@ const LoginPage = () => {
       data: { user },
     } = await supabase.auth.getUser();
 
+    handleUserDb();
+    if (user) {
+      setCheckLogin(true);
+      dispatch(userLogin(user.id));
+      useridDB.map((item) => {
+        if (user.id === item.uuid) {
+          nav(`/dogMain`);
+        } else {
+          return;
+        }
+      });
+    }
+  };
+
+  const handleUserDb = async () => {
     let { data, error } = await supabase.from("userdb_0").select("uuid");
     if (data) {
       setUserIdDB(data);
     } else {
       console.log(error);
     }
-    useridDB.map((item) => {
-      if (user) {
-        dispatch(userLogin(user.id));
-        if (user.id === item.uuid) {
-          nav(`/dogMain`);
-        } else {
-          return;
-        }
-      }
-    });
   };
 
   const dogSelectFunc = async () => {
@@ -89,6 +92,17 @@ const LoginPage = () => {
     dogSelectFunc();
   }, []);
 
+  useEffect(() => {
+    if (checkLogin) {
+      useridDB.forEach((item) => {
+        if (userUid === item.uuid) {
+          nav(`/dogMain`);
+        }
+      });
+    }
+  }, [useridDB]);
+
+  console.log(useridDB);
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">
