@@ -2,13 +2,13 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./components/login/login";
 import DogSelect from "./components/themaBg/dogSelect";
 import ThemaSelect from "./components/themaBg/themaSelect";
-import DogMain from "./components/diary/dogMain";
 import Write from "./components/diary/diaryComponents/write";
 import View from "./components/diary/diaryComponents/view";
 import List from "./components/diary/diaryComponents/List";
 import DogName from "./components/themaBg/dogName";
 import MapPage from "./components/map/mapPage";
 import './style/style.css'
+import DogMain from "./components/main/dogMain";
 function App() {
   // const memoziedDispatches = useMemo(() => {
   //   return {

@@ -5,10 +5,7 @@ import supabase from "../../store";
 import { userLogin } from "../../redux/slices/loginSlice/userLoginSlice";
 import "../../style/style.css";
 import Logout from "./logoutHeader";
-
-interface UidType {
-  uuid: string;
-}
+import { UidType } from "../../lib/type";
 
 const LoginPage = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
@@ -30,22 +27,9 @@ const LoginPage = () => {
       console.log(data);
       console.log(error);
     } catch (error) {
-      console.error("카카오 로그인 중 오류 발생:", error);
+      throw error;
     }
   }
-
-  // async function google() {
-  //   const { error } = await supabase.auth.signInWithOAuth({
-  //     provider: "google",
-  //     options: {
-  //       queryParams: {
-  //         access_type: "offline",
-  //         prompt: "consent",
-  //       },
-  //     },
-  //   });
-  //   console.log(error);
-  // }
 
   const dogSelectHandle = () => {
     nav(`/dogSelect`);
@@ -75,7 +59,7 @@ const LoginPage = () => {
     if (data) {
       setUserIdDB(data);
     } else {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -102,7 +86,6 @@ const LoginPage = () => {
     }
   }, [useridDB]);
 
-  console.log(useridDB);
   return (
     <section className="bg-[#E9CEB9]">
       <section className="max-w-lg mx-auto bg-[#FFEAD9] h-screen">

@@ -38,7 +38,6 @@ const DogMain = () => {
     }
 
     data.map((item): void => {
-      console.log(userUid);
       if (userUid === item.uuid) {
         const obj = Object.values(item.dogthemabgdb);
         console.log(obj);

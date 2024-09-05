@@ -4,11 +4,9 @@ import { useNavigate } from "react-router-dom";
 import supabase from "../../store";
 import addDogSelect from "../../redux/thunks/dogthunk/addDogThunk";
 import Logout from "../login/logoutHeader";
+import { DogType } from "../../lib/type";
 
-interface DogType{
-  name:string;
-  url:string;
-}
+
 const DogSelect = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
   const dispatch = useAppDispatch();

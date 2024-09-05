@@ -6,49 +6,9 @@ import axios from "axios";
 import { mainDust } from "../../redux/slices/mainSlice/mainPageSlice";
 import { mainCity } from "../../redux/slices/mainSlice/mainCitySlice";
 import supabase from "../../store";
+import { CityDataList, DogNameType, ResultItem } from "../../lib/type";
 
-interface CityDataList {
-  cityName: string;
-  cityNameEng: string;
-  coValue: string;
-  dataGubun: string;
-  dataTime: string;
-  districtCode: string;
-  districtNumSeq: string;
-  itemCode: string;
-  khaiValue: string;
-  no2Value: string;
-  numOfRows: string;
-  o3Value: string;
-  pageNo: string;
-  pm10Value: string;
-  pm25Value: string;
-  resultCode: string;
-  resultMsg: string;
-  returnType: string;
-  searchCondition: string;
-  serviceKey: string;
-  sidoName: string;
-  so2Value: string;
-  totalCount: string;
-}
-interface Address {
-  address_name: string;
-  region_1depth_name: string;
-  region_2depth_name: string;
-  region_3depth_name: string;
-  mountain_yn: string;
-  main_address_no: string;
-  sub_address_no: string;
-  zip_code: string;
-}
-interface ResultItem {
-  address: Address;
-}
-interface DogNameType {
-  uuid: string;
-  dogname: string;
-}
+
 
 const Weather = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
@@ -125,11 +85,14 @@ const Weather = () => {
     handleDogName();
   }, []);
 
-  useEffect(() => {
+  useEffect(()=>{
     const fetchData_list = async () => {
       await fetchData();
     };
     fetchData_list();
+  },[])
+  useEffect(() => {
+    
     if (latitude && longitude) {
       handleGeocoder();
     }

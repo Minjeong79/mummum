@@ -1,17 +1,8 @@
 import { useState, useEffect } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
-import MenuFooter from "../diary/footer";
+import { Marker } from "../../lib/type";
+import MenuFooter from "../main/footer";
 
-interface Position {
-  lat: number;
-  lng: number;
-}
-
-interface Marker {
-  position: Position;
-  content: string;
-  address: string;
-}
 
 interface Info extends Marker {}
 
@@ -27,14 +18,12 @@ const MapPage = () => {
 
     ps.keywordSearch(keywordTxt, (data, status, _pagination) => {
       if (status === kakao.maps.services.Status.OK) {
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
         const bounds = new kakao.maps.LatLngBounds();
         let markers = [];
 
         for (var i = 0; i < data.length; i++) {
-          const lat = parseFloat(data[i].y); // string을 number로 변환
-          const lng = parseFloat(data[i].x); // string을 number로 변환
+          const lat = parseFloat(data[i].y); 
+          const lng = parseFloat(data[i].x); 
           markers.push({
             position: {
               lat: lat,
@@ -47,8 +36,6 @@ const MapPage = () => {
           bounds.extend(new kakao.maps.LatLng(lat, lng));
         }
         setMarkers(markers);
-
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
         map.setBounds(bounds);
       }
     });

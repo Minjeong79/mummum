@@ -1,40 +1,18 @@
 import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../redux/reduxStore";
-// import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../store";
+import { DetailDataType } from "../../../lib/type";
 
-interface DataType {
-  id: number;
-  uuid: string;
-  walk: string;
-  eat: string;
-  pill: string;
-  hospital: string;
-  beauty: string;
-  content: string;
-  date: string;
-  walkimg: string;
-  eatimg: string;
-  pillimg: string;
-  hospitalimg: string;
-  beautyimg: string;
-  basicW: string;
-  basicE: string;
-  basicP: string;
-  basicH: string;
-  basicB: string;
-}
 const View = () => {
   const nav = useNavigate();
-
   const selectDBId = useAppSelector((state) => state.userWriteId.selectId);
-
-  const [fetchDb, setFetchDb] = useState<DataType[]>([]);
+  const [fetchDb, setFetchDb] = useState<DetailDataType[]>([]);
+  
   const handleDb = async () => {
     const { data, error } = await supabase.from("writedb").select();
     if (error) {
-      console.error("Error fetching data:", error);
+      throw error;
     } else {
       setFetchDb(data);
     }
@@ -48,7 +26,6 @@ const View = () => {
   };
  
   const hadleDelete = async (selectDBId: number) => {
-    console.log("click");
     window.confirm("삭제 하시겠습니까?");
     const { error } = await supabase
       .from("writedb")

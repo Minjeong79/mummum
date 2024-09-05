@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../store";
+import { BackBgType } from "../../lib/type";
 
-interface BackBgType {
-  id: number;
-  backurl: string;
-  menutext: string;
-}
+
 const MenuFooter = () => {
   const nav = useNavigate();
 

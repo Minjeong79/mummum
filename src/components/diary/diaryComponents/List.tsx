@@ -2,24 +2,10 @@ import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/reduxStore";
 import { useNavigate } from "react-router-dom";
 import { userSelectId } from "../../../redux/slices/user/userWriteSlice";
-import MenuFooter from "../footer";
 import supabase from "../../../store";
 import Logout from "../../login/logoutHeader";
-interface DataType {
-  id: number;
-  uuid: string;
-  walk: string;
-  eat: string;
-  pill: string;
-  hospital: string;
-  beauty: string;
-  content: string;
-  walkimg: string;
-  eatimg: string;
-  pillimg: string;
-  hospitalimg: string;
-  beautyimg: string;
-}
+import { DataType } from "../../../lib/type";
+import MenuFooter from "../../main/footer";
 
 const List = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +18,7 @@ const List = () => {
   const handleDb = async () => {
     const { data, error } = await supabase.from("writedb").select();
     if (error) {
-      console.error("Error fetching data:", error);
+      throw error;
     } else {
       setFetchDb(data);
     }
@@ -45,15 +31,12 @@ const List = () => {
 
   const handlePage = (id: number) => {
     dispatch(userSelectId(id));
-    console.log(id);
     nav(`/view/${id}`);
   };
 
   useEffect(() => {
     handleDb();
   }, []);
-
-  // console.log(imgList);
 
   return (
     <section className="bg-[#E9CEB9]">
@@ -88,7 +71,7 @@ const List = () => {
                       <div>{item.content}</div>
                       <div key={index} className="flex">
                         <div>
-                          {item.walk === "산책 완료" ? (
+                          {item.walk === "산책" ? (
                             <div className="w-10">
                               <img src={item.walkimg} />
                             </div>

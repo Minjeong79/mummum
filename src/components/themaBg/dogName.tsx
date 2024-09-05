@@ -18,7 +18,7 @@ const DogName = () => {
       setMyDogName("");
       nav(`/dogMain`);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
   return (

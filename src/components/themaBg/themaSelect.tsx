@@ -4,12 +4,9 @@ import { useNavigate } from "react-router-dom";
 import supabase from "../../store";
 import addDogSelectTHunk from "../../redux/thunks/dogthunk/addDogSelectThunk";
 import Logout from "../login/logoutHeader";
+import { ThemaType } from "../../lib/type";
 
-interface ThemaType {
-  id: number;
-  url: string;
-  title: string;
-}
+
 const ThemaSelect = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
   const dispatch = useAppDispatch();

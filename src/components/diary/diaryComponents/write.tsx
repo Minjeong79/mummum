@@ -1,53 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/reduxStore";
-// import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { customAlphabet } from "nanoid";
 import { userWirteId } from "../../../redux/slices/user/userWriteSlice";
 import supabase from "../../../store";
-
-interface TopimgC {
-  id: number;
-  name: string;
-  imgurl: string;
-  imgurlO: string;
-}
-
-interface Topimg {
-  id: number;
-  name: string;
-  imgurl: string;
-}
-
-interface ImgType {
-  id: number;
-  walk: string;
-  eat: string;
-  pill: string;
-  hospital: string;
-  beauty: string;
-}
-interface DataType {
-  id: number;
-  uuid: string;
-  walk: string;
-  eat: string;
-  pill: string;
-  hospital: string;
-  beauty: string;
-  content: string;
-  date: string;
-  walkimg: string;
-  eatimg: string;
-  pillimg: string;
-  hospitalimg: string;
-  beautyimg: string;
-  basicW: string;
-  basicE: string;
-  basicP: string;
-  basicH: string;
-  basicB: string;
-}
+import { DetailDataType, ImgType, Topimg, TopimgC } from "../../../lib/type";
+import { dateFunc } from "../../../lib/db";
 
 const Write = () => {
   const dispatch = useAppDispatch();
@@ -58,6 +16,9 @@ const Write = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
   const selectDBId = useAppSelector((state) => state.userWriteId.selectId);
 
+  const imgRef_t0 = useRef<HTMLImageElement>(null);
+  const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
+
   const [imgList, setimgList] = useState<TopimgC[]>([]);
   const [imgBmList, setimgBmList] = useState<Topimg[]>([]);
   const [imgBmListC, setimgBmListC] = useState<Topimg[]>([]);
@@ -65,23 +26,22 @@ const Write = () => {
   const [btnBtSelects, setBtnBtSelects] = useState<string[]>([]);
   const [allimgList, setAllimgList] = useState<ImgType[]>([]);
   const [txtValue, setTextValue] = useState("");
-  const [fetchDb, setFetchDb] = useState<DataType[]>([]);
+  const [fetchDb, setFetchDb] = useState<DetailDataType[]>([]);
 
-  const [updatedWalk, setUpdatedWalk] = useState("");
-  const [updatedWalkImg, setUpdatedWalkImg] = useState("");
-  const [updatedBasicW, setUpdatedBasicW] = useState("");
-  const [changeValue, setChangeValue] = useState(false);
-  const [changeEValue, setChangeEValue] = useState(false);
-  const [changePValue, setChangePValue] = useState(false);
-  const [changeHValue, setChangeHValue] = useState(false);
-  const [changeBValue, setChangeBValue] = useState(false);
+  const [walkNums, setWalkNums] = useState<number>(2);
+  const [eatNums, seteatNums] = useState<number>(2);
+  const [pillNums, setPillNums] = useState<number>(2);
+  const [hospitalNums, setHospitalNums] = useState<number>(2);
+  const [beautyNums, setBeatyNums] = useState<number>(2);
+
+  const daydate = dateFunc();
 
   const imgTopListHandle = async () => {
     const { data, error } = await supabase.from("diarywriteimgtop").select();
     if (data) {
       setimgList(data);
     } else {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -90,7 +50,7 @@ const Write = () => {
     if (data) {
       setimgBmList(data);
     } else {
-      console.log(error);
+      throw error;
     }
   };
   const imgBottomListCompleteHandle = async () => {
@@ -100,57 +60,100 @@ const Write = () => {
     if (data) {
       setimgBmListC(data);
     } else {
-      console.log(error);
+      throw error;
     }
   };
 
   const handleImageClick = (item: string) => {
-    if (selectDBId) {
-      setChangeValue(true);
-      setUpdatedWalk(item);
-      setUpdatedWalkImg(allimgList[0].walk);
-      setUpdatedBasicW(imgList[0].imgurlO);
-    } else {
-      setUpdatedWalk("산책 미완");
+    setWalkNums(walkNums + 1);
+    if (imgRef_t0.current) {
+      if (
+        imgRef_t0.current.src.includes("img_icon1-1.png") &&
+        walkNums % 2 === 0
+      ) {
+        imgRef_t0.current.src =
+          "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/wirteImg/img_icon1.png";
+        setBtnTopSelect([item]);
+      } else {
+        imgRef_t0.current.src =
+          "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/wirteImg/img_icon1-1.png";
+        setBtnTopSelect([]);
+      }
     }
-
-    setBtnTopSelect([...btnTopSelect, item]);
   };
 
+  const setImgRef = (index: number) => (el: HTMLImageElement | null) => {
+    imgRefs.current[index] = el;
+  };
   const hadleIageClicks = (item: string) => {
+    imgRefs.current.forEach((img, index) => {
+      if (img) {
+        switch (item) {
+          case "밥":
+            if (index === 0) {
+              seteatNums(eatNums + 1);
+              if (img.src.includes("img_icon2-1.png")) {
+                img.src =
+                  "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/wirteImg/img_icon2.png";
+              } else {
+                img.src =
+                  "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/wirteImg/img_icon2-1.png";
+              }
+            }
+            break;
+          case "약":
+            if (index === 1) {
+              setPillNums(pillNums + 1);
+              if (img.src.includes("img_icon3-1.png")) {
+                img.src =
+                  "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/wirteImg/img_icon3.png";
+              } else {
+                img.src =
+                  "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/wirteImg/img_icon3-1.png";
+              }
+            }
+            break;
+          case "병원":
+            if (index === 2) {
+              setHospitalNums(hospitalNums + 1);
+              if (img.src.includes("img_icon4-1.png")) {
+                img.src =
+                  "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/wirteImg/img_icon4.png";
+              } else {
+                img.src =
+                  "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/wirteImg/img_icon4-1.png";
+              }
+            }
+            break;
+          case "미용":
+            if (index === 3) {
+              setBeatyNums(beautyNums + 1);
+              if (img.src.includes("img_icon5-1.png")) {
+                img.src =
+                  "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/wirteImg/img_icon5.png";
+              } else {
+                img.src =
+                  "https://zbjwkpzadmxggyahexgv.supabase.co/storage/v1/object/public/img/wirteImg/img_icon5-1.png";
+              }
+            }
+            break;
+          default:
+            break;
+        }
+      }
+    });
     setBtnBtSelects([...btnBtSelects, item]);
-    if (selectDBId) {
-      if (item === "밥") {
-        setChangeEValue(true);
-      }
-    }
-    if (selectDBId) {
-      if (item === "약") {
-        setChangePValue(true);
-      }
-    }
-    if (selectDBId) {
-      if (item === "병원") {
-        setChangeHValue(true);
-      }
-    }
-    if (selectDBId) {
-      if (item === "미용") {
-        setChangeBValue(true);
-      }
-    }
   };
 
   const hadleListImg = async () => {
     const { data, error } = await supabase.from("listimgdb").select();
-
     if (data) {
       setAllimgList(data);
     } else {
-      console.log(error);
+      throw error;
     }
   };
-
+  console.log(btnTopSelect);
   //처음 데이터 입력 시
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -159,16 +162,8 @@ const Write = () => {
       return;
     }
 
-    const today = new Date();
-    const forMattoY = today.getFullYear();
-    const forMattoM = String(today.getMonth() + 1).padStart(2, "0");
-    const forMattoD = String(today.getDate()).padStart(2, "0");
-
-    const dayDate = new Date(`${forMattoY}.${forMattoM}.${forMattoD}`);
-
     try {
-      const walkN =
-        btnTopSelect.find((item) => item === "산책 완료") || "산책 미완";
+      const walkN = btnTopSelect.find((item) => item === "산책") || "미완";
       const eat = btnBtSelects.find((item) => item === "밥") || "미완";
       const pill = btnBtSelects.find((item) => item === "약") || "미완";
       const hospital = btnBtSelects.find((item) => item === "병원") || "미완";
@@ -176,19 +171,19 @@ const Write = () => {
       const { error } = await supabase.from("writedb").insert({
         id: numId,
         uuid: userUid,
-        walk: walkN,
-        walkimg: walkN != "산책 미완" ? allimgList[0].walk : null,
-        basicW: walkN === "산책 미완" ? imgList[0].imgurl : imgList[0].imgurlO,
-        eat: eat,
+        walk: walkNums % 2 === 1 ? walkN : "미완",
+        walkimg: walkN != "미완" ? allimgList[0].walk : null,
+        basicW: walkN === "미완" ? imgList[0].imgurl : imgList[0].imgurlO,
+        eat: eatNums % 2 === 1 ? eat : "미완",
         eatimg: eat != "미완" ? allimgList[0].eat : null,
-        pill: pill,
+        pill: pillNums % 2 === 1 ? pill : "미완",
         pillimg: pill != "미완" ? allimgList[0].pill : null,
-        hospital: hospital,
+        hospital: hospitalNums % 2 === 1 ? hospital : "미완",
         hospitalimg: hospital != "미완" ? allimgList[0].hospital : null,
-        beauty: beauty,
+        beauty: beautyNums % 2 === 1 ? beauty : "미완",
         beautyimg: beauty != "미완" ? allimgList[0].beauty : null,
         content: txtValue,
-        date: dayDate,
+        date: daydate,
         basicE: eat != "미완" ? imgBmListC[0].imgurl : imgBmList[0].imgurl,
         basicP: pill != "미완" ? imgBmListC[1].imgurl : imgBmList[1].imgurl,
         basicH: hospital != "미완" ? imgBmListC[2].imgurl : imgBmList[2].imgurl,
@@ -200,7 +195,7 @@ const Write = () => {
       dispatch(userWirteId(numId));
       nav(`/list`);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -217,7 +212,6 @@ const Write = () => {
       setFetchDb(data);
     }
   };
-  console.log(updatedWalkImg);
   //데이터 수정
   const handleUpDateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -227,67 +221,12 @@ const Write = () => {
     }
 
     try {
-      const eat = btnBtSelects.find((item) => item === "밥") || "미완";
-      const pill = btnBtSelects.find((item) => item === "약") || "미완";
-      const hospital = btnBtSelects.find((item) => item === "병원") || "미완";
-      const beauty = btnBtSelects.find((item) => item === "미용") || "미완";
-
       fetchDb.map(async (item) => {
         console.log(selectDBId === item.id);
         if (selectDBId === item.id) {
           const { error } = await supabase
             .from("writedb")
             .update({
-              walk:
-                item.walk === "산책 미완" && changeValue
-                  ? updatedWalk
-                  : item.walk,
-              walkimg:
-                item.walk === "산책 미완" && changeValue
-                  ? allimgList[0].walk
-                  : item.walkimg,
-              basicW: item.walk === "산책 미완" ? updatedBasicW : item.basicW,
-
-              eat: item.eat === "미완" && changeEValue ? eat : item.eat,
-              eatimg:
-                item.eat === "미완" && changeEValue
-                  ? allimgList[0].eat
-                  : item.eatimg,
-              basicE:
-                item.eat === "미완" && changeEValue
-                  ? imgBmListC[0].imgurl
-                  : item.basicE,
-              pill: item.pill === "미완" && changePValue ? pill : item.pill,
-              pillimg:
-                item.pill === "미완" && changePValue
-                  ? allimgList[0].pill
-                  : item.pillimg,
-              basicP:
-                item.pill === "미완" && changePValue
-                  ? imgBmListC[1].imgurl
-                  : item.basicP,
-              hospital:
-                item.hospital === "미완" && changeHValue
-                  ? hospital
-                  : item.hospital,
-              hospitalimg:
-                item.hospital === "미완" && changeHValue
-                  ? allimgList[0].hospital
-                  : item.hospitalimg,
-              basicH:
-                item.hospital === "미완" && changeHValue
-                  ? imgBmListC[2].imgurl
-                  : item.basicH,
-              beauty:
-                item.beauty === "미완" && changeBValue ? beauty : item.beauty,
-              beautyimg:
-                item.beauty === "미완" && changeBValue
-                  ? allimgList[0].beauty
-                  : item.beautyimg,
-              basicB:
-                item.beauty === "미완" && changeBValue
-                  ? imgBmListC[3].imgurl
-                  : item.basicB,
               content: txtValue,
             })
             .eq("id", selectDBId);
@@ -329,28 +268,15 @@ const Write = () => {
                       <h3 className="text-lg">산책</h3>
                       <div>
                         <ul>
-                          {item.walk === "산책 완료" ? (
-                            <li key={idx} className="w-16 read-only">
-                              <button
-                                className="mt-2.5 cursor-default"
-                                type="button"
-                              >
-                                <img src={item.basicW} alt="이미지" />
-                              </button>
-                              <p className="mt-2.5 text-sm">{item.walk}</p>
-                            </li>
-                          ) : (
-                            <li key={idx} className="w-16">
-                              <button
-                                className="mt-2.5"
-                                type="button"
-                                onClick={() => handleImageClick("산책 완료")}
-                              >
-                                <img src={item.basicW} alt="이미지" />
-                              </button>
-                              <p className="mt-2.5 text-sm">{item.walk}</p>
-                            </li>
-                          )}
+                          <li key={idx} className="w-16 read-only">
+                            <button
+                              className="mt-2.5 cursor-default"
+                              type="button"
+                            >
+                              <img src={item.basicW} alt="이미지" />
+                            </button>
+                            <p className="mt-2.5 text-sm">{item.walk}</p>
+                          </li>
                         </ul>
                       </div>
                     </div>
@@ -358,100 +284,56 @@ const Write = () => {
                       <h3 className="text-lg">추가 선택</h3>
                       <ul className="flex flex-row gap-x-4">
                         <li className="w-16">
-                          {item.eat === "밥" ? (
-                            <div>
-                              <button
-                                className="mt-2.5 cursor-default read-only"
-                                type="button"
-                              >
-                                <img src={item.basicE} alt="이미지" />
-                              </button>
-                              <p className="mt-2.5 text-sm text-center">{item.eat}</p>
-                            </div>
-                          ) : (
-                            <div>
-                              <button
-                                className="mt-2.5"
-                                type="button"
-                                onClick={() => hadleIageClicks('밥')}
-                              >
-                                <img src={item.basicE} alt="이미지" />
-                              </button>
-                              <p className="mt-2.5 text-sm text-center">{item.eat}</p>
-                            </div>
-                          )}
+                          <div>
+                            <button
+                              className="mt-2.5 cursor-default read-only"
+                              type="button"
+                            >
+                              <img src={item.basicE} alt="이미지" />
+                            </button>
+                            <p className="mt-2.5 text-sm text-center">
+                              {item.eat}
+                            </p>
+                          </div>
                         </li>
                         <li className="w-16">
-                          {item.eat === "약" ? (
-                            <div>
-                              <button
-                                className="mt-2.5 cursor-default read-only "
-                                type="button"
-                              >
-                                <img src={item.basicP} alt="이미지" />
-                              </button>
-                              <p className="mt-2.5 text-sm text-center">{item.pill}</p>
-                            </div>
-                          ) : (
-                            <div>
-                              <button
-                                className="mt-2.5"
-                                type="button"
-                                onClick={() => hadleIageClicks('밥')}
-                              >
-                                <img src={item.basicP} alt="이미지" />
-                              </button>
-                              <p className="mt-2.5 text-sm text-center">{item.pill}</p>
-                            </div>
-                          )}
+                          <div>
+                            <button
+                              className="mt-2.5 cursor-default read-only "
+                              type="button"
+                            >
+                              <img src={item.basicP} alt="이미지" />
+                            </button>
+                            <p className="mt-2.5 text-sm text-center">
+                              {item.pill}
+                            </p>
+                          </div>
                         </li>
                         <li className="w-16">
-                          {item.eat === "병원" ? (
-                            <div>
-                              <button
-                                className="mt-2.5 cursor-default read-only"
-                                type="button"
-                              >
-                                <img src={item.basicH} alt="이미지" />
-                              </button>
-                              <p className="mt-2.5 text-sm text-center">{item.hospital}</p>
-                            </div>
-                          ) : (
-                            <div>
-                              <button
-                                className="mt-2.5"
-                                type="button"
-                                onClick={() => hadleIageClicks('병원')}
-                              >
-                                <img src={item.basicH} alt="이미지" />
-                              </button>
-                              <p className="mt-2.5 text-sm text-center">{item.hospital}</p>
-                            </div>
-                          )}
+                          <div>
+                            <button
+                              className="mt-2.5 cursor-default read-only"
+                              type="button"
+                            >
+                              <img src={item.basicH} alt="이미지" />
+                            </button>
+                            <p className="mt-2.5 text-sm text-center">
+                              {item.hospital}
+                            </p>
+                          </div>
                         </li>
                         <li className="read-only w-16">
-                          {item.eat === "미용" ? (
-                            <div>
-                              <button
-                                className="mt-2.5 cursor-default"
-                                type="button"
-                              >
-                                <img src={item.basicB} alt="이미지" />
-                              </button>
-                              <p className="mt-2.5 text-sm text-center">{item.beauty}</p>
-                            </div>
-                          ) : (
-                            <div>
-                              <button
-                                className="mt-2.5"
-                                type="button"
-                                onClick={() => hadleIageClicks('미용')}
-                              >
-                                <img src={item.basicB} alt="이미지" />
-                              </button>
-                              <p className="mt-2.5 text-sm text-center">{item.beauty}</p>
-                            </div>
-                          )}
+                          <div>
+                            <button
+                              className="mt-2.5 cursor-default"
+                              type="button"
+                            >
+                              <img src={item.basicB} alt="이미지" />
+                            </button>
+                            <p className="mt-2.5 text-sm text-center">
+                              {item.beauty}
+                            </p>
+                          </div>
                         </li>
                       </ul>
                     </div>
@@ -496,7 +378,11 @@ const Write = () => {
                             type="button"
                             onClick={() => handleImageClick(item.name)}
                           >
-                            <img src={item.imgurl} alt="이미지" />
+                            <img
+                              ref={imgRef_t0}
+                              src={item.imgurl}
+                              alt={item.name}
+                            />
                           </button>
                           <p className="mt-2.5 text-sm">{item.name}</p>
                         </li>
@@ -516,7 +402,11 @@ const Write = () => {
                           type="button"
                           onClick={() => hadleIageClicks(item.name)}
                         >
-                          <img src={item.imgurl} alt="이미지" />
+                          <img
+                            ref={setImgRef(index)}
+                            src={item.imgurl}
+                            alt={item.name}
+                          />
                         </button>
                         <p className="mt-2.5 text-sm">{item.name}</p>
                       </li>
