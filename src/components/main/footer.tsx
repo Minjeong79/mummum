@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import supabase from "../../store";
 import { BackBgType } from "../../lib/type";
 
-
 const MenuFooter = () => {
   const nav = useNavigate();
 
@@ -24,7 +23,7 @@ const MenuFooter = () => {
       case "일기":
         nav(`/List`);
         break;
-      case "산책":
+      case "지도":
         nav(`/mapPage`);
         break;
       case "메인":
