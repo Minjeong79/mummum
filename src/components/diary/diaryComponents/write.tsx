@@ -162,41 +162,37 @@ const Write = () => {
       return;
     }
 
-    try {
-      const walkN = btnTopSelect.find((item) => item === "산책") || "미완";
-      const eat = btnBtSelects.find((item) => item === "밥") || "미완";
-      const pill = btnBtSelects.find((item) => item === "약") || "미완";
-      const hospital = btnBtSelects.find((item) => item === "병원") || "미완";
-      const beauty = btnBtSelects.find((item) => item === "미용") || "미완";
-      const { error } = await supabase.from("writedb").insert({
-        id: numId,
-        uuid: userUid,
-        walk: walkNums % 2 === 1 ? walkN : "미완",
-        walkimg: walkN != "미완" ? allimgList[0].walk : null,
-        basicW: walkN === "미완" ? imgList[0].imgurl : imgList[0].imgurlO,
-        eat: eatNums % 2 === 1 ? eat : "미완",
-        eatimg: eat != "미완" ? allimgList[0].eat : null,
-        pill: pillNums % 2 === 1 ? pill : "미완",
-        pillimg: pill != "미완" ? allimgList[0].pill : null,
-        hospital: hospitalNums % 2 === 1 ? hospital : "미완",
-        hospitalimg: hospital != "미완" ? allimgList[0].hospital : null,
-        beauty: beautyNums % 2 === 1 ? beauty : "미완",
-        beautyimg: beauty != "미완" ? allimgList[0].beauty : null,
-        content: txtValue,
-        date: daydate,
-        basicE: eat != "미완" ? imgBmListC[0].imgurl : imgBmList[0].imgurl,
-        basicP: pill != "미완" ? imgBmListC[1].imgurl : imgBmList[1].imgurl,
-        basicH: hospital != "미완" ? imgBmListC[2].imgurl : imgBmList[2].imgurl,
-        basicB: beauty != "미완" ? imgBmListC[3].imgurl : imgBmList[3].imgurl,
-      });
-      console.log(error);
-      setTextValue("");
+    const walkN = btnTopSelect.find((item) => item === "산책") || "미완";
+    const eat = btnBtSelects.find((item) => item === "밥") || "미완";
+    const pill = btnBtSelects.find((item) => item === "약") || "미완";
+    const hospital = btnBtSelects.find((item) => item === "병원") || "미완";
+    const beauty = btnBtSelects.find((item) => item === "미용") || "미완";
+    const { error } = await supabase.from("writedb").insert({
+      id: numId,
+      uuid: userUid,
+      walk: walkNums % 2 === 1 ? walkN : "미완",
+      walkimg: walkN != "미완" ? allimgList[0].walk : null,
+      basicW: walkN === "미완" ? imgList[0].imgurl : imgList[0].imgurlO,
+      eat: eatNums % 2 === 1 ? eat : "미완",
+      eatimg: eat != "미완" ? allimgList[0].eat : null,
+      pill: pillNums % 2 === 1 ? pill : "미완",
+      pillimg: pill != "미완" ? allimgList[0].pill : null,
+      hospital: hospitalNums % 2 === 1 ? hospital : "미완",
+      hospitalimg: hospital != "미완" ? allimgList[0].hospital : null,
+      beauty: beautyNums % 2 === 1 ? beauty : "미완",
+      beautyimg: beauty != "미완" ? allimgList[0].beauty : null,
+      content: txtValue,
+      date: daydate,
+      basicE: eat != "미완" ? imgBmListC[0].imgurl : imgBmList[0].imgurl,
+      basicP: pill != "미완" ? imgBmListC[1].imgurl : imgBmList[1].imgurl,
+      basicH: hospital != "미완" ? imgBmListC[2].imgurl : imgBmList[2].imgurl,
+      basicB: beauty != "미완" ? imgBmListC[3].imgurl : imgBmList[3].imgurl,
+    });
+    console.log(error);
+    setTextValue("");
 
-      dispatch(userWirteId(numId));
-      nav(`/list`);
-    } catch (error) {
-      throw error;
-    }
+    dispatch(userWirteId(numId));
+    nav(`/list`);
   };
 
   const handleCancel = () => {
@@ -275,7 +271,9 @@ const Write = () => {
                             >
                               <img src={item.basicW} alt="이미지" />
                             </button>
-                            <p className="mt-2.5 text-sm">{item.walk}</p>
+                            <p className="mt-2.5 text-sm text-center">
+                              {item.walk}
+                            </p>
                           </li>
                         </ul>
                       </div>
@@ -384,7 +382,9 @@ const Write = () => {
                               alt={item.name}
                             />
                           </button>
-                          <p className="mt-2.5 text-sm">{item.name}</p>
+                          <p className="mt-2.5 text-sm text-center">
+                            {item.name}
+                          </p>
                         </li>
                       );
                     })}
@@ -408,7 +408,9 @@ const Write = () => {
                             alt={item.name}
                           />
                         </button>
-                        <p className="mt-2.5 text-sm">{item.name}</p>
+                        <p className="mt-2.5 text-sm text-center">
+                          {item.name}
+                        </p>
                       </li>
                     );
                   })}
