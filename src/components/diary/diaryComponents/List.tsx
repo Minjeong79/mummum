@@ -36,7 +36,7 @@ const List = () => {
 
   useEffect(() => {
     handleDb();
-  }, []);
+  }, [fetchDb]);
 
   return (
     <section className="bg-[#E9CEB9]">

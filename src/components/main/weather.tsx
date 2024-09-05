@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/reduxStore";
-// import { useNavigate } from "react-router-dom";
 import useGeolocation from "react-hook-geolocation";
 import axios from "axios";
 import { mainDust } from "../../redux/slices/mainSlice/mainPageSlice";
@@ -8,17 +7,12 @@ import { mainCity } from "../../redux/slices/mainSlice/mainCitySlice";
 import supabase from "../../store";
 import { CityDataList, DogNameType, ResultItem } from "../../lib/type";
 
-
-
 const Weather = () => {
   const userUid = useAppSelector((state) => state.userLogin.userId);
-  const dustList = useAppSelector((state) => state.mainDust.response);
+  const dustList = useAppSelector((state) => state.mainDust.response as CityDataList[]);
   const addressName = useAppSelector((state) => state.mainCity.cName);
-  const [myDogName, setMyDogName] = useState<DogNameType[]>([]);
-
   const dispatch = useAppDispatch();
-
-  //미세먼지
+  const [myDogName, setMyDogName] = useState<DogNameType[]>([]);
   const [checkData, setCheckData] = useState<string[]>([]);
 
   const URL =
@@ -47,7 +41,6 @@ const Weather = () => {
         },
       });
       dispatch(mainDust(response.data.response.body.items));
-      handleComparison();
     } catch (error) {
       console.log(error);
     }
@@ -72,25 +65,27 @@ const Weather = () => {
   };
 
   const handleComparison = () => {
-    dustList.map((item: CityDataList) => {
-      if (item.cityName === addressName) {
-        const list = [item.cityName, item.pm10Value, item.pm25Value];
-        setCheckData(list);
-      }
-    });
+    const foundItem = dustList.find((item: CityDataList) => item.cityName === addressName);
+    if (foundItem) {
+      const list = [foundItem.cityName, foundItem.pm10Value, foundItem.pm25Value];
+      setCheckData(list);
+    }
   };
 
   useEffect(() => {
-   
     handleDogName();
-  }, []);
-
-  useEffect(()=>{
     const fetchData_list = async () => {
       await fetchData();
     };
     fetchData_list();
-  },[])
+  }, []);
+
+  useEffect(() => {
+    if (dustList.length > 0) {
+      handleComparison();
+    }
+  }, [dustList, addressName]);
+
   useEffect(() => {
     
     if (latitude && longitude) {

@@ -8,7 +8,7 @@ const View = () => {
   const nav = useNavigate();
   const selectDBId = useAppSelector((state) => state.userWriteId.selectId);
   const [fetchDb, setFetchDb] = useState<DetailDataType[]>([]);
-  
+
   const handleDb = async () => {
     const { data, error } = await supabase.from("writedb").select();
     if (error) {
@@ -24,7 +24,7 @@ const View = () => {
   const hadleCancle = () => {
     nav(`/list`);
   };
- 
+
   const hadleDelete = async (selectDBId: number) => {
     window.confirm("삭제 하시겠습니까?");
     const { error } = await supabase
@@ -126,19 +126,29 @@ const View = () => {
               )}
             </ul>
           </div>
-          <div className="flex flex-row gap-4 justify-center items-center">
+          <div className="relative">
+            <div className="flex flex-row gap-4 justify-center items-center">
+              <button
+                className="bg-[#FD943F] text-white rounded-lg px-4 py-2"
+                onClick={() => hadleEdit(selectDBId)}
+              >
+                수정
+              </button>
+              <button
+                className="bg-[#D9D9D9] rounded-lg px-4 py-2"
+                onClick={hadleCancle}
+              >
+                취소
+              </button>
+            </div>
+            <div className="absolute right-0">
             <button
-              className="bg-[#FD943F] text-white rounded-lg px-4 py-2"
-              onClick={() => hadleEdit(selectDBId)}
-            >
-              수정
-            </button>
-            <button
-              className="bg-[#D9D9D9] rounded-lg px-4 py-2"
-              onClick={hadleCancle}
-            >
-              취소
-            </button>
+                className="bg-[#A4A4A4] rounded-lg px-4 py-2 text-white"
+                onClick={hadleCancle}
+              >
+                목록
+              </button>
+            </div>
           </div>
         </div>
       </section>

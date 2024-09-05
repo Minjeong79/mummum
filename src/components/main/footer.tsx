@@ -45,7 +45,7 @@ const MenuFooter = () => {
         <ul className="flex justify-around mb-0 py-3.5">
           {menuUrlList.map((item, index) => {
             return (
-              <li key={index} className="w-20">
+              <li key={index} className="w-20 cursor-pointer">
                 <img
                   src={item.backurl}
                   alt="메뉴 이미지"
