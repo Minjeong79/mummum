@@ -50,7 +50,7 @@ const List = () => {
         )}
         <div className="max-w-lg">
           <div className="px-10 flex flex-col gap-y-7 pt-12">
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <h3 className="text-sm text-[#555]">멈멈이 기록</h3>
               <button
                 className="bg-white p-2.5 rounded-lg"
