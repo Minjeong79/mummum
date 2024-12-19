@@ -129,7 +129,7 @@
 
 
 <h4>[ 지도 페이지 ] </h4>
-<img src="https://github.com/user-attachments/assets/43c45e61-a6f5-4e34-afea-52982b3d150d" alt="지도 페이지"/>
+<img src="https://github.com/user-attachments/assets/06f49a5b-6532-4a4e-80dd-506321832883" alt="지도 페이지"/>
 <ul>
       <li>카카오 지도 Api활용 한 검색 페이지 입니다.</li>
 </ul>
