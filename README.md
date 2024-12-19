@@ -1,6 +1,5 @@
 <h2>반려견 일기(React 구현) </h2>
 
-<img src="https://fpjdvuxtsnhwwltmlwcx.supabase.co/storage/v1/object/public/img/git/main.png" alt="반려견 일기 커뮤니티(Nextjs 구현)"/>
 <ul>
         <li>배포 url : https://mummum-rust.vercel.app/</li>
         <li>Test ID : minj92@kakao.com</li>
