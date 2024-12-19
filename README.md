@@ -122,7 +122,7 @@
 
 
 <h4>[ 반려견 일기 페이지 ] </h4>
-<img src="https://github.com/user-attachments/assets/ffec9136-3059-452a-8144-8f9286c088c5" alt="반려견 일기 페이지"/>
+<img src="https://github.com/user-attachments/assets/89c263f9-df1d-4f50-b1f0-bbe27eaa59ed" alt="반려견 일기 페이지"/>
 <ul>
       <li>반려견의 하루 일기를 작성, 수정, 삭제 할 수 있습니다.</li>
 </ul>
